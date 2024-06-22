@@ -1,0 +1,67 @@
+<h2 mat-dialog-title class="bg-ciber-p-as-1 text-white">
+  <i class="fa-solid fa-clipboard"></i> Formulario Usuario
+</h2>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="form">
+        <fieldset class="scheduler-border shadow-sm mt-4">
+          <legend class="scheduler-border mb-4">
+            {{data.element.nombre}} {{data.element.apellido}}
+          </legend>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <p>{{data.element.correo}}</p>
+              </div>
+              <div class="form-group mt-3">
+                <label for="contrasena">Contraseña:</label>
+                <input
+                  id="contrasena"
+                  type="password"
+                  class="form-control"
+                  formControlName="contrasena"
+                />
+              </div>
+              <div class="form-group mt-3 mr-2">
+                <label for="opciones">Tipo de Usuario:</label>
+                <mat-select class="font-sm-corhuila" formControlName="tipo">
+                  <mat-option
+                    class="font-sm-corhuila"
+                    *ngFor="let option of usuarioTipo"
+                    [value]="option.codigo"
+                    >{{ option.nombre }}</mat-option
+                  >
+                </mat-select>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="mb-2">
+  <button class="btn btn-danger ml-3" mat-dialog-close (click)="cancelar()">
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-success ml-2"
+    [disabled]="!form.valid"
+    (click)="generarUsuario()"
+  >
+    <i class="far fa-save"></i> Guardar
+  </button>
+</div>
+
+<style>
+    .is-invalid {
+      border-color: #dc3545;
+    }
+    
+    .invalid-feedback {
+      color: #dc3545;
+    }
+    </style>

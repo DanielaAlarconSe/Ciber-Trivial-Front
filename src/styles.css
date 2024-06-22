@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cursor-select {
+    cursor: pointer;
+  } 
+
+/*BOTON GENERAL*/
+
+.btn-ciber-v {
+  background-color: green;
+  color: #ffffff;
+}
+
+.btn-ciber-v:hover {
+  background-color: #00c053;
+  color: #ffffff;
+}
+
+.btn-ciber-v:disabled {
+  background-color: #4d626c;
+  color: #edeff0;
+}
+
+.btn-corhuila-p-2 {
+  background-color: #3e6c83;
+  color: #ffffff;
+}
+
+.btn-corhuila-p-2:hover {
+  background-color: #006983;
+  color: #ffffff;
+}
+
+/*BACKGROUND COLORES PRINCIPALES - SUPERIOR E INFERIOR*/
+
+.bg-ciber-p-as-1 {
+  background: linear-gradient(70deg, black, green);
+}
+
+.requerido {
+  color: rgb(249, 111, 111);
+}

@@ -1,0 +1,91 @@
+<div class="login">
+  <button mat-icon-button class="close.mat-button text-white" (click)="cerrarDialogo()">
+    X
+  </button>
+
+  <div class="content d-flex justify-content-center align-items-center">
+    <div class="card-login" style="width: 28rem">
+      <img
+        class="card-img-top"
+        src="assets/images/Logo1.png"
+        alt="Card image cap"
+      />
+      <hr class="punteada" />
+      <div class="row text-center">
+        <div class="col">
+          <h6 class="font-weight-bold text-green">INICIO DE SESIÓN</h6>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="container">
+            <form [formGroup]="formulario">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="ml-1"
+                      >Usuario <span class="requerido">*</span></label
+                    >
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="fa-solid fa-user"></i>
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        formControlName="usuario"
+                        class="form-control"
+                        placeholder="Correo electrónico"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>  
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="ml-1"
+                      >Contraseña <span class="requerido">*</span></label
+                    >
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          <i class="fa-solid fa-lock"></i>
+                        </div>
+                      </div>
+                      <input
+                        class="form-control"
+                        formControlName="contrasenia"
+                        type="password"
+                        placeholder="Digite la clave"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-2 mb-4 text-center">
+                <div class="col">
+                  <button
+                    (click)="login()"
+                    type="submit"
+                    class="btn btn-ciber-v"
+                    [disabled]="!formulario.valid"
+                  >
+                    Ingresar
+                    <span
+                      *ngIf="cargando"
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

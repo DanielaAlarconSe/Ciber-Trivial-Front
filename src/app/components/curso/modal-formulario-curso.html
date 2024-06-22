@@ -1,0 +1,162 @@
+<!-- <h2 mat-dialog-title class="bg-ciber-p-as-1 text-white">
+  <i class="fa-solid fa-clipboard"></i> Formulario Curso
+</h2>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="form">
+        <fieldset class="scheduler-border shadow-sm mt-4">
+          <legend class="scheduler-border mb-4">Información Curso</legend>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label
+                  >Nombre del curso: <span class="requerido"> * </span></label
+                >
+                <mat-form-field appearance="fill">
+                  <input
+                    matInput
+                    formControlName="nombre"
+                    required
+                    placeholder="Digite el nombre del curso."
+                    (input)="transformToUppercase($event, 'nombre')"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label>Descripción: <span class="requerido"> * </span></label>
+                <mat-form-field appearance="fill">
+                  <textarea
+                    matInput
+                    formControlName="descripcion"
+                    placeholder="Digite una descripción corta."
+                    (input)="transformToUppercase($event, 'descripcion')"
+                    (input)="countCharacters($event)"
+                  ></textarea>
+                  <mat-hint align="end"
+                    >{{ charCount }} / 500 caracteres</mat-hint
+                  >
+                  <mat-error *ngIf="descripcion?.errors?.['charLimitExceeded']">
+                    La descripción no puede exceder los 500 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label> Instructor: <span class="requerido"> * </span> </label>
+                <mat-form-field appearance="fill" style="width: 90%">
+                  <mat-select formControlName="instructor">
+                    <mat-option
+                      *ngFor="let opcion of listadoInstructores"
+                      [value]="opcion.codigo"
+                    >
+                      {{ opcion.nombre }} {{ opcion.apellido }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="mb-2">
+  <button class="btn btn-danger ml-3" mat-dialog-close (click)="cancelar()">
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-success ml-2"
+    [disabled]="!form.valid"
+    (click)="generarCurso()"
+  >
+    <i class="far fa-save"></i> Guardar
+  </button>
+</div> -->
+<h2 mat-dialog-title class="bg-ciber-p-as-1 text-white">
+  <i class="fa-solid fa-clipboard"></i> Formulario Curso
+</h2>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="form">
+        <fieldset class="scheduler-border shadow-sm mt-4">
+          <legend class="scheduler-border mb-4">Información Curso</legend>
+          <div class="row">
+            <div class="col">
+
+              <div class="form-group">
+                <label>Nombre del curso: <span class="requerido"> * </span></label>
+                <mat-form-field appearance="fill" class="w-100">
+                  <input
+                    matInput
+                    formControlName="nombre"
+                    required
+                    placeholder="Digite el nombre del curso."
+                    (input)="transformToUppercase($event, 'nombre')"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="col">
+              <div class="form-group">
+                <label>Instructor: <span class="requerido"> * </span></label>
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-select formControlName="instructor">
+                    <mat-option
+                      *ngFor="let opcion of listadoInstructores"
+                      [value]="opcion.codigo"
+                    >
+                      {{ opcion.nombre }} {{ opcion.apellido }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label>Descripción: <span class="requerido"> * </span></label>
+                <mat-form-field appearance="fill" class="w-100">
+                  <textarea
+                    rows="4"
+                    matInput
+                    formControlName="descripcion"
+                    placeholder="Digite una descripción corta."
+                    (input)="countCharacters($event)"
+                    style="width: 100%;"
+                  ></textarea>
+                  <mat-hint align="end">{{ charCount }} / 500 caracteres</mat-hint>
+                  <mat-error *ngIf="descripcion?.errors?.['charLimitExceeded']">
+                    La descripción no puede exceder los 500 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="mb-2">
+  <button class="btn btn-danger ml-3" mat-dialog-close (click)="cancelar()">
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-success ml-2"
+    [disabled]="!form.valid"
+    (click)="generarCurso()"
+  >
+    <i class="far fa-save"></i> Guardar
+  </button>
+</div>
+

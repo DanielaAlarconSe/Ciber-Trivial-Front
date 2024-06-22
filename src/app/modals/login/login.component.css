@@ -1,0 +1,31 @@
+.login{
+    background-color: black;
+}
+
+.cdk-overlay-pane.my-dialog {
+  position: relative !important;
+}
+.close.mat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  line-height: 14px;
+  min-width: auto;
+  color: white;
+}
+.punteada {
+  border-bottom: dashed 1px #ffffff;
+}
+
+.card-login {
+  background: white;
+  border: 1px solid #a6b1b6;
+  border-radius: 15px;
+  -moz-box-shadow: 2px 2px 5px #999;
+  box-shadow: 5px 5px 15px #999;
+  border-radius: 15px 15px 0px 0px;
+  margin-bottom: 5%;
+  width: 100%;
+}
+
