@@ -5,7 +5,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .cursor-select {
     cursor: pointer;
-  } 
+  }
 
 /*BOTON GENERAL*/
 
@@ -43,3 +43,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .requerido {
   color: rgb(249, 111, 111);
 }
+

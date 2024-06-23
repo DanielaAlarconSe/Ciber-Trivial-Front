@@ -17,12 +17,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
   selectedColor: string = 'default';
-   usuario: Usuario;
+  usuario: Usuario;
   hide = true;
   ver = true;
-   public load: boolean;
+  public load: boolean;
   today = new Date();
   cargando: boolean = false;
   formulario!: FormGroup;
@@ -34,7 +33,8 @@ export class LoginComponent {
     private router: Router,
     private formBuilder: FormBuilder
   ) {
-    this.load = false; this.usuario = new Usuario();
+    this.load = false;
+    this.usuario = new Usuario();
   }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class LoginComponent {
       this.load = true;
     }, 4000);
 
-   this.crearFormularioLogin();
+    this.crearFormularioLogin();
   }
 
   cerrarDialogo(): void {
@@ -52,10 +52,9 @@ export class LoginComponent {
 
   private crearFormularioLogin(): void {
     this.formulario = this.formBuilder.group({
-      usuario: ['', [Validators.required, Validators.email]], 
-      contrasenia: ['', Validators.required]
+      usuario: ['', [Validators.required, Validators.email]],
+      contrasenia: ['', Validators.required],
     });
- 
   }
 
   setColor(color: string): void {
@@ -76,7 +75,7 @@ export class LoginComponent {
         this.authService.guardarToken(response.access_token);
 
         // Mostrar mensaje de éxito y redirigir
-        
+
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -88,7 +87,7 @@ export class LoginComponent {
             toast.addEventListener('mouseleave', Swal.resumeTimer);
           },
         });
-    
+
         Toast.fire({
           icon: 'success',
           title: 'Sesión iniciada correctamente',
