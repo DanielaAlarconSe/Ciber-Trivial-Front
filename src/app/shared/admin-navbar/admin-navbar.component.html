@@ -188,6 +188,8 @@
         style="width: 100%"
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
+        (opened)="togglePanel('panel1')"
+        [expanded]="panelAbierto === 'panel1'"
       >
         <mat-expansion-panel-header class="disable_ripple specific-class">
           <mat-panel-title>
@@ -219,7 +221,7 @@
               <i class="fa-solid fa-user-plus"></i> Usuario
             </small>
           </a>
-          <a
+          <!--  <a
             class="pl-5 sidenav-accordion"
             mat-list-item
             style="width: 300px"
@@ -229,7 +231,7 @@
             <small class="text-white">
               <i class="fa-solid fa-lock"></i> Contraseña
             </small>
-          </a>
+          </a> -->
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-accordion>
@@ -239,6 +241,8 @@
         style="width: 100%"
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
+        (opened)="togglePanel('panel2')"
+        [expanded]="panelAbierto === 'panel2'"
       >
         <mat-expansion-panel-header class="disable_ripple specific-class">
           <mat-panel-title>
@@ -279,6 +283,8 @@
         style="width: 100%"
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
+        (opened)="togglePanel('panel3')"
+        [expanded]="panelAbierto === 'panel3'"
       >
         <mat-expansion-panel-header class="disable_ripple specific-class">
           <mat-panel-title>

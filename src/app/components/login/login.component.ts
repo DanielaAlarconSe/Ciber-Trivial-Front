@@ -1,14 +1,13 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { Usuario } from '../../models/usuario';
+import { Usuario } from 'src/app/models/usuario';
+import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -27,8 +26,6 @@ export class LoginComponent {
   formulario!: FormGroup;
 
   constructor(
-    private dialogRef: MatDialogRef<LoginComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
     public authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder
@@ -38,16 +35,7 @@ export class LoginComponent {
   }
 
   ngOnInit() {
-    this.dialogRef.updateSize('60%', '75%');
-    setTimeout(() => {
-      this.load = true;
-    }, 4000);
-
     this.crearFormularioLogin();
-  }
-
-  cerrarDialogo(): void {
-    this.dialogRef.close();
   }
 
   private crearFormularioLogin(): void {
@@ -92,7 +80,6 @@ export class LoginComponent {
           icon: 'success',
           title: 'Sesión iniciada correctamente',
         });
-        this.cerrarDialogo();
         this.router.navigate(['/panel']);
       },
       (err) => this.fError(err)

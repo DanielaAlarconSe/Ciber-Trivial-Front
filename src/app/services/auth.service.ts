@@ -124,6 +124,8 @@ export class AuthService {
     this.usuario.username = datos.username;
     this.usuario.nombre = datos.nombre;
     this.usuario.apellido = datos.apellido;
+    console.log(this.usuario);
+
     sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
     localStorage.setItem('usuario', JSON.stringify(this.usuario));
   }

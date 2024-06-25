@@ -1,23 +1,27 @@
-<h2 mat-dialog-title class="align-end" style="background-color: black; color: white">
-  <span class="m-2 cursor-select" (click)="cerrarDialogo()">
-    <i class="fa-solid fa-xmark"></i>
-  </span>
-</h2>
-<div mat-dialog-content class="modal-content-custom">
-  <div class="content d-flex justify-content-center align-items-center h-100">
-    <div class="card-login" style="width: 28rem">
-      <img
-        class="card-img-top"
-        src="assets/images/Logo1.png"
-        alt="Card image cap"
-      />
-      <hr class="punteada" />
-      <div class="row text-center">
-        <div class="col">
-          <h6 class="font-weight-bold text-green">INICIO DE SESIÓN</h6>
+<div class="page-not-found-container">
+  <div class="content">
+    <div class="card-login">
+      <div class="card-header bg-ciber-p-as-1 header-usco-card">
+        <div class="row">
+          <div class="col">
+            <img
+              title="USCO"
+              mat-card-image
+              src="assets/images/login.png"
+              style="width: 400px"
+            />
+          </div>
+        </div>
+        <hr class="punteada" />
+        <div class="row">
+          <div class="col">
+            <h6 class="font-weight-bold text-white text-uppercase">
+              Inicio de sesión
+            </h6>
+          </div>
         </div>
       </div>
-      <div class="card-body">
+      <div class="card-body text-left">
         <div class="container">
           <form [formGroup]="formulario">
             <div class="row">

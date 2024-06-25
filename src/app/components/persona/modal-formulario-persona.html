@@ -2,7 +2,7 @@
   <i class="fa-solid fa-clipboard"></i> Formulario Persona
 </h2>
 <div mat-dialog-content>
-  <div class="row">
+  <div class="row mt-4">
     <div class="col">
       <form [formGroup]="form">
         <fieldset class="scheduler-border shadow-sm mt-4">
@@ -11,7 +11,7 @@
             <div class="col">
               <div class="form-group">
                 <label>Nombres: <span class="requerido"> * </span></label>
-                <mat-form-field appearance="fill">
+                <mat-form-field class="example-full-width" appearance="fill">
                   <input
                     matInput
                     formControlName="nombre"
@@ -25,7 +25,7 @@
             <div class="col">
               <div class="form-group">
                 <label>Apellidos: <span class="requerido"> * </span></label>
-                <mat-form-field appearance="fill">
+                <mat-form-field class="example-full-width" appearance="fill">
                   <input
                     matInput
                     formControlName="apellido"
@@ -35,6 +35,8 @@
                 </mat-form-field>
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class="col">
               <div class="form-group">
                 <label
@@ -88,7 +90,7 @@
                 <label
                   >Correo electrónico: <span class="requerido"> * </span></label
                 >
-                <mat-form-field appearance="fill" style="width: 90%">
+                <mat-form-field class="example-full-width" appearance="fill">
                   <input
                     matInput
                     formControlName="correoPersonal"
@@ -102,17 +104,19 @@
       </form>
     </div>
   </div>
-</div>
-<div mat-dialog-actions class="mb-2">
-  <button class="btn btn-danger ml-3" mat-dialog-close (click)="cancelar()">
-    <i class="fa-solid fa-xmark"></i> Cancelar
-  </button>
-  <button
-    type="button"
-    class="btn btn-success ml-2"
-    [disabled]="!form.valid"
-    (click)="generarPersona()"
-  >
-    <i class="far fa-save"></i> Guardar
-  </button>
+  <div class="row text-right">
+    <div class="col">
+      <button class="btn btn-danger ml-3" mat-dialog-close (click)="cancelar()">
+        <i class="fa-solid fa-xmark"></i> Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-success ml-2"
+        [disabled]="!form.valid"
+        (click)="generarPersona()"
+      >
+        <i class="far fa-save"></i> Guardar
+      </button>
+    </div>
+  </div>
 </div>

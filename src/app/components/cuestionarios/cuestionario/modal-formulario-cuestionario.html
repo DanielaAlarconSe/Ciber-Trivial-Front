@@ -42,9 +42,6 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <!--  <mat-form-field>
-                  <input matInput type="datetime-local" placeholder="start date">
-                </mat-form-field> -->
                 <label
                   >Fecha de inicio: <span class="requerido"> * </span></label
                 >
@@ -56,21 +53,6 @@
                     placeholder="start date"
                   />
                 </mat-form-field>
-                <!-- <mat-form-field class="example-full-width" appearance="fill">
-                  <input
-                    matInput
-                    [matDatepicker]="picker1"
-                    formControlName="fechaInicio"
-                    [min]="fechaLimiteMinima"
-                    (dateChange)="limiteVigencia($event)"
-                  />
-                  <mat-hint>Día/Mes/Año</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker1"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field> -->
               </div>
             </div>
             <div class="col">
@@ -84,20 +66,6 @@
                     formControlName="fechaFin"
                   />
                 </mat-form-field>
-                <!--  <mat-form-field class="example-full-width" appearance="fill">
-                  <input
-                    matInput
-                    [matDatepicker]="picker2"
-                    formControlName="fechaFin"
-                    [min]="fechaLimiteMinimaVigencia"
-                  />
-                  <mat-hint>Día/Mes/Año</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker2"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field> -->
               </div>
             </div>
           </div>
@@ -127,17 +95,19 @@
       </form>
     </div>
   </div>
-</div>
-<div mat-dialog-actions align="end" class="mb-2">
-  <button class="btn btn-danger" mat-dialog-close (click)="cancelar()">
-    <i class="fa-solid fa-xmark"></i> Cancelar
-  </button>
-  <button
-    type="button"
-    class="btn btn-success ml-2"
-    [disabled]="!formulario.valid"
-    (click)="generarCuestionario()"
-  >
-    <i class="far fa-save"></i> Guardar
-  </button>
+  <div class="row text-right">
+    <div class="col">
+      <button class="btn btn-danger" mat-dialog-close (click)="cancelar()">
+        <i class="fa-solid fa-xmark"></i> Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-success ml-2"
+        [disabled]="!formulario.valid"
+        (click)="generarCuestionario()"
+      >
+        <i class="far fa-save"></i> Guardar
+      </button>
+    </div>
+  </div>
 </div>

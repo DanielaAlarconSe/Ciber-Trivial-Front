@@ -1,40 +1,42 @@
 <app-admin-navbar>
-  <div class="mb-4 text-center">
+  <div class="text-center pl-4 pr-4 pb-4">
     <div class="card shadow-sm mt-3">
       <div class="card-header text-center" style="background-color: #d5dbdb">
         <h4 class="mt-2">Administración de Instructores</h4>
       </div>
       <div class="card-body">
-        <div class="row text-right">
-          <div class="col">
+        <div class="row">
+          <div class="col text-left">
+            <div class="form-group">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>Campo de búsqueda</mat-label>
+                <input
+                  matInput
+                  #input
+                  (keyup)="filtrar($event)"
+                  maxlength="50"
+                  type="text"
+                  required
+                />
+                <button matSuffix mat-icon-button>
+                  <mat-icon>search</mat-icon>
+                </button>
+                <mat-hint align="end">{{ input.value.length }}/50</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col text-right mt-4">
             <button class="btn btn-ciber-v" (click)="registrarFormulario()">
               <i class="fa-solid fa-plus"></i> Registrar Nuevo
             </button>
           </div>
         </div>
-        <div class="row text-left ml-3">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <input
-              matInput
-              type="text"
-              (keyup)="filtrar($event)"
-              [(ngModel)]="palabrasClaves"
-              placeholder="Buscar"
-            />
-            <button
-              matSuffix
-              style="text-decoration: none; background: none; border: none"
-            >
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </mat-form-field>
-        </div>
-        <div class="row mt-2">
+        <div class="row">
           <div class="col">
             <table
               mat-table
               [dataSource]="dataSource"
-              class="table table-hover shadow"
+              class="table table-hover shadow-sm"
             >
               <ng-container matColumnDef="index">
                 <th mat-header-cell *matHeaderCellDef>N°</th>
@@ -90,8 +92,7 @@
                     *ngIf="element.estado !== 1"
                     class="btn btn-secondary btn-sm mr-2"
                     title="Inactivo"
-                  >
-                  </button>
+                  ></button>
                 </td>
               </ng-container>
               <ng-container matColumnDef="opciones">

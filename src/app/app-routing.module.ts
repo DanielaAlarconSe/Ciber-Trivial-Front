@@ -7,25 +7,30 @@ import { PersonaComponent } from './components/persona/persona.component';
 import { CursoComponent } from './components/curso/curso.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { CuestionarioComponent } from './components/cuestionarios/cuestionario/cuestionario.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'trivial' },
+
   //COMPONENTES DEL SISTEMA
   { path: 'trivial', component: TrivialComponent },
 
+  { path: 'inicio-sesion', component: LoginComponent },
+
   { path: 'cuestionario', component: CuestionarioComponent },
 
-  { path: 'panel', component: PanelComponent },
+  { path: 'panel', component: PanelComponent, canActivate: [AuthGuard] },
 
-  { path: 'persona', component: PersonaComponent},
+  { path: 'persona', component: PersonaComponent },
 
-  { path: 'usuario', component: UsuarioComponent},
+  { path: 'usuario', component: UsuarioComponent },
 
-  { path: 'curso', component: CursoComponent},
+  { path: 'curso', component: CursoComponent },
 
+  { path: 'acceso-denegado', component: PageNotFoundComponent },
 
-  //REDIRECCIONAMIENTO COMOPONENTE POR DEFECTO PARA RUTAS INEXISTENTES EN EL NAVEGADOR
-  { path: '', pathMatch: 'full', redirectTo: '/trivial' },
-  { path: '**', component: PageNotFoundComponent }, // Usa el componente de página 404
+  { path: '**', redirectTo: 'acceso-denegado' },
 ];
 
 @NgModule({
@@ -37,4 +42,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

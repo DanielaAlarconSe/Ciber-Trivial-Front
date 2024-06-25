@@ -39,7 +39,7 @@ export class UsuarioComponent {
   listadoPersona: PersonaDto[] = [];
 
   dataSource = new MatTableDataSource<PersonaDto>([]);
-  displayedColumns: string[] = ['index', 'codigo', 'nombres', 'email', 'crear'];
+  displayedColumns: string[] = ['index', 'nombres', 'email', 'crear'];
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   dialogRef!: MatDialogRef<any>;

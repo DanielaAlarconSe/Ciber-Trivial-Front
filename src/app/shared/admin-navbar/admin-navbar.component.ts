@@ -19,6 +19,7 @@ export class AdminNavbarComponent {
   public rol: String = this.roles;
   url: string = environment.URL_BACKEND;
   panelOpenState = false;
+  panelAbierto: string | null = null;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -33,6 +34,14 @@ export class AdminNavbarComponent {
     private router: Router,
     public navbarHiddenService: NavbarHiddenService
   ) {}
+
+  togglePanel(panelId: string): void {
+    if (this.panelAbierto === panelId) {
+      this.panelAbierto = null;
+    } else {
+      this.panelAbierto = panelId;
+    }
+  }
 
   receiveMessage($event: any) {
     this.rol = $event;

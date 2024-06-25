@@ -1,8 +1,14 @@
-.mat-mdc-table .mdc-data-table__header-row{
-    background-color: #d5dbdb;
+.mat-mdc-table .mdc-data-table__header-row {
+  background-color: #d5dbdb;
 }
 
 .hide-column {
-    display: none;
-  }
-  
+  display: none;
+}
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+}
