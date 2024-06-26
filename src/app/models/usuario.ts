@@ -5,5 +5,5 @@ export class Usuario {
   state!: number;
   nombre!: string;
   apellido!: string;
-  rol!: string;
+  rol!: number;
 }

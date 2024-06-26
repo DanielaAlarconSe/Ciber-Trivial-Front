@@ -22,6 +22,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { UsuarioTipoService } from 'src/app/services/usuario-tipo.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import * as CryptoJS from 'crypto-js';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -39,7 +40,7 @@ export class UsuarioComponent {
   listadoPersona: PersonaDto[] = [];
 
   dataSource = new MatTableDataSource<PersonaDto>([]);
-  displayedColumns: string[] = ['index', 'nombres', 'email', 'crear'];
+  displayedColumns: string[] = ['index', 'nombres', 'email', 'perfil', 'crear'];
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   dialogRef!: MatDialogRef<any>;
@@ -111,24 +112,22 @@ export class UsuarioComponent {
     this.editarFormulario(element);
   }
 
-  crearUsuario(element: any) {
+  crearUsuario(usuario: any) {
     this.dialogRef = this.dialog.open(ModalFormularioUsuario, {
       width: '50%',
       disableClose: true,
-      data: {
-        element,
-      },
+      data: { usuario },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
     });
   }
 
-  editarFormulario(element: any): void {
+  editarFormulario(usuario: any): void {
     this.dialogRef = this.dialog.open(ModalFormularioUsuario, {
       width: '50%',
       disableClose: true,
-      data: { element },
+      data: { usuario },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -158,6 +157,7 @@ export class ModalFormularioUsuario {
   listadoPersona: PersonaDto[] = [];
   form!: FormGroup;
   usuarioTipo: UsuarioTipo[] = [];
+  hide = true;
 
   constructor(
     public dialogRef: MatDialogRef<ModalFormularioUsuario>,
@@ -173,8 +173,9 @@ export class ModalFormularioUsuario {
     if (this.authService.validacionToken()) {
       this.crearFormUsuario();
       this.obtenerUsuarioTipos();
-      if (JSON.stringify(data) !== 'null') {
-        this.editarUsuario(data);
+
+      if (JSON.stringify(data) !== 'null' && data.usuario?.usuario > 0) {
+        this.editarUsuario(data.usuario);
       } else {
         console.log('No entra');
       }
@@ -198,10 +199,15 @@ export class ModalFormularioUsuario {
     });
   }
 
+  editarUsuario(element: PersonaDto) {
+    this.editar = true;
+    this.form.get('tipo')!.setValue(element.tipoUsuarioCodigo);
+  }
+
   generarUsuario() {
     let persona: UsuarioDto = new UsuarioDto();
-    persona.codigo = this.data.element.codigo;
-    persona.usuario = this.data.element.correo;
+    persona.codigo = this.data.usuario.codigo;
+    persona.usuario = this.data.usuario.correo;
     persona.contrasena = this.form.get('contrasena')!.value;
     persona.tipo = this.form.get('tipo')!.value;
 
@@ -276,9 +282,4 @@ export class ModalFormularioUsuario {
   }
 
   cancelar() {}
-
-  editarUsuario(element: UsuarioDto) {
-    this.editar = true;
-    this.form.get('tipo')!.setValue(this.data.element.tipo);
-  }
 }

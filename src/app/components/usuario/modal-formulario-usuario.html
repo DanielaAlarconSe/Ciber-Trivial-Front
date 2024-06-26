@@ -7,33 +7,63 @@
       <form [formGroup]="form">
         <fieldset class="scheduler-border shadow-sm mt-4">
           <legend class="scheduler-border mb-4">
-            {{data.element.nombre}} {{data.element.apellido}}
+            {{data.usuario.nombre}} {{data.usuario.apellido}}
           </legend>
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label for="usuario">Usuario:</label>
-                <p>{{data.element.correo}}</p>
+                <label>Usuario:</label>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <input matInput [value]="data.usuario.correo" readonly />
+                </mat-form-field>
               </div>
-              <div class="form-group mt-3">
-                <label for="contrasena">Contraseña:</label>
-                <input
-                  id="contrasena"
-                  type="password"
-                  class="form-control"
-                  formControlName="contrasena"
-                />
-              </div>
-              <div class="form-group mt-3 mr-2">
-                <label for="opciones">Tipo de Usuario:</label>
-                <mat-select class="font-sm-corhuila" formControlName="tipo">
-                  <mat-option
-                    class="font-sm-corhuila"
-                    *ngFor="let option of usuarioTipo"
-                    [value]="option.codigo"
-                    >{{ option.nombre }}</mat-option
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label for="contrasena"
+                  >Contraseña: <span class="requerido"> * </span></label
+                >
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <input
+                    autocomplete="off"
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="contrasena"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
                   >
-                </mat-select>
+                    <mat-icon
+                      >{{hide ? 'visibility' : 'visibility_off'}}</mat-icon
+                    >
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="opciones"
+                  >Tipo de Usuario: <span class="requerido"> * </span></label
+                >
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-select
+                    class="font-sm-corhuila"
+                    formControlName="tipo"
+                    placeholder="Seleccione un perfil"
+                  >
+                    <mat-option
+                      *ngFor="let option of usuarioTipo"
+                      [value]="option.codigo"
+                      >{{ option.nombre }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
               </div>
             </div>
           </div>

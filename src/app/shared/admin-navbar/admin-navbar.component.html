@@ -22,167 +22,7 @@
         </small>
       </a>
     </mat-nav-list>
-    <!-- <mat-accordion>
-        <mat-expansion-panel
-          class="sidenav"
-          style="width: 100%"
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false"
-        >
-          <mat-expansion-panel-header class="disable_ripple specific-class">
-            <mat-panel-title>
-              <small class="text-white mt-2">
-                <i class="fa-solid fa-school"></i> Gestión de Personal
-              </small>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/institucion']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-building-columns"></i> Institución
-              </small>
-            </a>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/sede']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-landmark-flag"></i> Sede
-              </small>
-            </a>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/facultad']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-building-flag"></i> Facultad
-              </small>
-            </a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel
-          class="sidenav"
-          style="width: 100%"
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false"
-        >
-          <mat-expansion-panel-header class="disable_ripple specific-class">
-            <mat-panel-title>
-              <small class="text-white mt-2">
-                <i class="fa-solid fa-people-group"></i> Cuerpos colegiados
-              </small>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/cuerpos-colegiados']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-circle-plus"></i> Crear
-              </small>
-            </a>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/integrantes-cuerpos-colegiados']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-user-gear"></i> Integrantes
-              </small>
-            </a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel
-          class="sidenav"
-          style="width: 100%"
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false"
-        >
-          <mat-expansion-panel-header class="disable_ripple specific-class">
-            <mat-panel-title>
-              <small class="text-white mt-2">
-                <i class="fa-solid fa-scale-balanced"></i> Marco normativo
-              </small>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/norma']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-file-circle-plus"></i> Norma
-              </small>
-            </a>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/norma-grupo']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-folder-tree"></i> Grupos
-              </small>
-            </a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel
-          class="sidenav"
-          style="width: 100%"
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false"
-        >
-          <mat-expansion-panel-header class="disable_ripple specific-class">
-            <mat-panel-title>
-              <small class="text-white mt-2">
-                <i class="fa-solid fa-building-user"></i> Representante legal
-              </small>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              [routerLink]="['/representante-legal']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-street-view"></i> Designar
-              </small>
-            </a>
-            
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </mat-accordion> -->
-    <mat-accordion>
+    <mat-accordion *ngIf="rol == 1">
       <mat-expansion-panel
         class="sidenav"
         style="width: 100%"
@@ -221,17 +61,6 @@
               <i class="fa-solid fa-user-plus"></i> Usuario
             </small>
           </a>
-          <!--  <a
-            class="pl-5 sidenav-accordion"
-            mat-list-item
-            style="width: 300px"
-            [routerLink]="['/desarrollo']"
-            routerLinkActive="router-link-active"
-          >
-            <small class="text-white">
-              <i class="fa-solid fa-lock"></i> Contraseña
-            </small>
-          </a> -->
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-accordion>
@@ -252,17 +81,6 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-nav-list>
-          <!-- <a
-              class="pl-5 sidenav-accordion"
-              mat-list-item
-              style="width: 300px"
-              [routerLink]="['/cine']"
-              routerLinkActive="router-link-active"
-            >
-              <small class="text-white">
-                <i class="fa-solid fa-list"></i> Clasificación CINE
-              </small>
-            </a> -->
           <a
             class="pl-5 sidenav-accordion"
             mat-list-item
@@ -308,20 +126,7 @@
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-accordion>
-    <!-- <mat-nav-list>
-        <a
-          class="list"
-          mat-list-item
-          [routerLink]="['/desarrollo']"
-          routerLinkActive="router-link-active"
-        >
-          <small class="pl-2 item-principal text-white">
-            <i class="fa-solid fa-chart-simple"></i> Reportes
-          </small>
-        </a>
-      </mat-nav-list> -->
   </mat-sidenav>
-  <!--  -->
   <mat-sidenav-content (validarToken)="receiveMessage($event)">
     <mat-toolbar class="toolbar">
       <button

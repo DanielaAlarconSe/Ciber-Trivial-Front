@@ -57,7 +57,6 @@ export class CursoComponent {
     public personaService: PersonaService,
     public dialog: MatDialog,
     private authService: AuthService,
-    private router: Router,
     private cursoService: CursoService
   ) {
     if (this.authService.validacionToken()) {
@@ -123,11 +122,11 @@ export class CursoComponent {
     });
   }
 
-  editarCurso(element: any) {
+  editarCurso(curso: Curso) {
     this.dialogRef = this.dialog.open(ModalFormularioCurso, {
       width: '50%',
       disableClose: true,
-      data: { element },
+      data: { curso },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -170,7 +169,7 @@ export class ModalFormularioCurso {
       this.crearFormCurso();
       this.obtenerinstructores();
       if (JSON.stringify(data) !== 'null') {
-        this.editarCurso(data);
+        this.editarCurso(data.curso);
       } else {
         console.log('No entra');
       }
@@ -217,7 +216,7 @@ export class ModalFormularioCurso {
 
   generarCurso(): void {
     let curso: Curso = new Curso();
-    curso.codigo = this.data.element.codigo;
+    curso.codigo = this.form.get('codigo')!.value;
     curso.nombre = this.form.get('nombre')!.value;
     curso.descripcion = this.form.get('descripcion')!.value;
     curso.instructor = this.form.get('instructor')!.value;
@@ -229,11 +228,12 @@ export class ModalFormularioCurso {
     }
   }
 
-  editarCurso(element: Curso) {
+  editarCurso(curso: Curso) {
     this.editar = true;
-    this.form.get('nombre')!.setValue(this.data.element.nombre);
-    this.form.get('descripcion')!.setValue(this.data.element.descripcion);
-    this.form.get('instructor')!.setValue(this.data.element.instructor);
+    this.form.get('codigo')!.setValue(curso.codigo);
+    this.form.get('nombre')!.setValue(curso.nombre);
+    this.form.get('descripcion')!.setValue(curso.descripcion);
+    this.form.get('instructor')!.setValue(curso.instructor);
   }
 
   actualizarCurso(curso: any) {

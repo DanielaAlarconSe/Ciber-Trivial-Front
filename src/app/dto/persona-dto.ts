@@ -3,5 +3,8 @@ export class PersonaDto {
   nombre!: string;
   apellido!: string;
   correo!: string;
-  estadoUsuario!: number;
+  usuario!: number;
+  pw!: string;
+  tipoUsuarioCodigo!: number;
+  tipoUsuarioNombre!: string;
 }

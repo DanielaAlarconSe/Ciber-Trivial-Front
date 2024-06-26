@@ -15,8 +15,8 @@ import Swal from 'sweetalert2';
 export class AdminNavbarComponent {
   public nombre: string = this.auth.user.nombre;
   public apellido: string = this.auth.user.apellido;
-  public roles: String = this.auth.user.rol;
-  public rol: String = this.roles;
+  public roles: number = this.auth.user.rol;
+  public rol: number = this.roles;
   url: string = environment.URL_BACKEND;
   panelOpenState = false;
   panelAbierto: string | null = null;

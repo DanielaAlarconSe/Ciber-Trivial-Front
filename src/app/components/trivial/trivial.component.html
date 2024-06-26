@@ -56,11 +56,11 @@
 </div>
 <div class="container mt-4">
   <div class="row row-cols-1 row-cols-md-4">
-    <div class="col mb-4" *ngFor="let tarjeta of tarjetas">
+    <div class="col mb-4" *ngFor="let curso of listadoCursos">
       <div class="card">
         <div class="content">
-          <p class="heading">{{ tarjeta.title }}</p>
-          <p class="para">{{ tarjeta.text }}</p>
+          <p class="heading">{{ curso.nombre }}</p>
+          <p class="para">{{ curso.descripcion }}</p>
         </div>
       </div>
     </div>
