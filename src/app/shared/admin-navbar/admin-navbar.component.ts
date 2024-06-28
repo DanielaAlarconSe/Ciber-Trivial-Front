@@ -20,6 +20,7 @@ export class AdminNavbarComponent {
   url: string = environment.URL_BACKEND;
   panelOpenState = false;
   panelAbierto: string | null = null;
+  anio = new Date();
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -69,7 +70,7 @@ export class AdminNavbarComponent {
       icon: 'success',
       title: 'Sesión cerrada correctamente',
     });
-    this.router.navigate(['/trivial']);
+    this.router.navigate(['/inicio']);
   }
 
   ngOnInit() {}

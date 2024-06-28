@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from '../environments/environment';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',

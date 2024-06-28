@@ -115,9 +115,7 @@ export class PersonaComponent {
     this.obtenerPersonas();
   }
 
-  actualizarPersona(persona: Persona) {
-    console.log('primer ts');
-    
+  eliminar(persona: Persona) {
     this.personaService.actualizarPersona(persona).subscribe(
       (data: any) => {
         if (data > 0) {
@@ -152,7 +150,7 @@ export class PersonaComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         element.estado = 0;
-        this.actualizarPersona(element);
+        this.eliminar(element);
         Swal.fire({
           icon: 'success',
           title: '¡Transacción realizada con éxito!',
@@ -297,7 +295,7 @@ export class ModalFormularioPersona {
     persona.estado = this.form.get('estado')!.value;
 
     console.log(persona, 'lo que trae --->>>');
-    
+
     if (this.editar) {
       this.actualizarPersona(persona);
     } else {
@@ -309,14 +307,14 @@ export class ModalFormularioPersona {
     console.log(persona, 'persona');
     const paisSeleccionado = this.form.get('pais')?.value;
     const codigoPais = paisSeleccionado.codigo;
-    
+
     let d = new Persona();
     d.codigo = persona.codigo;
     d.nombre = persona.nombre;
     d.apellido = persona.apellido;
     d.correo = persona.correo;
     d.paisResidencia = codigoPais;
-    
+
     this.personaService.registrarPersona(d).subscribe(
       (data) => {
         if (data > 0) {
@@ -340,20 +338,19 @@ export class ModalFormularioPersona {
 
   actualizarPersona(persona: Persona) {
     console.log(persona, 'persona editar');
-    
 
     const paisSeleccionado = this.form.get('pais')?.value;
     const codigoPais = paisSeleccionado.codigo;
-    
+
     let d = new Persona();
-    d.codigo = persona.codigo
+    d.codigo = persona.codigo;
     d.nombre = persona.nombre;
     d.apellido = persona.apellido;
     d.correo = persona.correo;
     d.paisResidencia = codigoPais;
 
     console.log(d, 'editar');
-    
+
     this.personaService.actualizarPersona(d).subscribe(
       (data) => {
         if (data > 0) {
@@ -376,7 +373,7 @@ export class ModalFormularioPersona {
   editarPersona(element: Persona) {
     console.log(this.editar, 'editar');
     console.log(element);
-  
+
     this.editar = true;
     this.form.get('nombre')!.setValue(element.nombre);
     this.form.get('apellido')!.setValue(element.apellido);
@@ -384,7 +381,6 @@ export class ModalFormularioPersona {
     this.form.get('correoPersonal')!.setValue(element.correo);
     this.form.get('codigo')!.setValue(element.codigo);
   }
-  
 
   eliminarPersona() {
     let persona: Persona = new Persona();

@@ -33,6 +33,12 @@ import {
   ModalFormularioCuestionario,
   CuestionarioComponent,
 } from './components/cuestionarios/cuestionario/cuestionario.component';
+import { VistaPreviaComponent } from './components/cuestionarios/vista-previa/vista-previa.component';
+import {
+  PreguntaComponent,
+  ModalFormularioPregunta,
+} from './components/cuestionarios/pregunta/pregunta.component';
+import { RespuestaComponent, ModalFormularioRespuesta } from './components/cuestionarios/respuesta/respuesta.component';
 
 @NgModule({
   declarations: [
@@ -48,10 +54,15 @@ import {
     ModalFormularioPersona,
     ModalFormularioUsuario,
     ModalFormularioCuestionario,
+    ModalFormularioPregunta,
+    ModalFormularioRespuesta,
     CursoComponent,
     UsuarioComponent,
     CuestionarioComponent,
     ModalFormularioCurso,
+    VistaPreviaComponent,
+    PreguntaComponent,
+    RespuestaComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +80,8 @@ import {
     ModalFormularioUsuario,
     ModalFormularioCurso,
     ModalFormularioCuestionario,
+    ModalFormularioPregunta,
+    ModalFormularioRespuesta,
   ],
   providers: [DatePipe, { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
   bootstrap: [AppComponent],

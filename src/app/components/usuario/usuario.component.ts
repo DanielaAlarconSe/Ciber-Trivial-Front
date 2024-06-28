@@ -16,13 +16,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { PersonaDto } from 'src/app/dto/persona-dto';
 import { UsuarioDto } from 'src/app/dto/usuario-dto';
-import { Persona } from 'src/app/models/persona';
 import { UsuarioTipo } from 'src/app/models/usuario-tipo';
 import { AuthService } from 'src/app/services/auth.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { UsuarioTipoService } from 'src/app/services/usuario-tipo.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import * as CryptoJS from 'crypto-js';
 import Swal from 'sweetalert2';
 
 @Component({

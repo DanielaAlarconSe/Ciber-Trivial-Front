@@ -120,12 +120,68 @@
             routerLinkActive="router-link-active"
           >
             <small class="text-white">
-              <i class="fa-solid fa-circle-plus"></i> Crear
+              <i class="fa-solid fa-circle-plus"></i> Crear Cuestionario
+            </small>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/pregunta']"
+            routerLinkActive="router-link-active"
+          >
+            <small class="text-white">
+              <i class="fa-solid fa-file-circle-question"></i> Crear Preguntas
+            </small>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/respuesta']"
+            routerLinkActive="router-link-active"
+          >
+            <small class="text-white">
+              <i class="fa-solid fa-file-signature"></i> Crear Respuestas
+            </small>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/cuestionario']"
+            routerLinkActive="router-link-active"
+          >
+            <small class="text-white">
+              <i class="fa-solid fa-diagram-project"></i> Relacionar P y R
+            </small>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/vista-previa']"
+            routerLinkActive="router-link-active"
+          >
+            <small class="text-white">
+              <i class="fa-solid fa-eye"></i> Vista previa
             </small>
           </a>
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-accordion>
+    <mat-nav-list style="padding-bottom: 0">
+      <a class="list" mat-list-item [routerLink]="['/panel']">
+        <small class="pl-2 item-principal text-white">
+          <i class="fa-solid fa-chart-simple"></i> Reportes
+        </small>
+      </a>
+    </mat-nav-list>
+    <div class="text-center footer-tabs mb-2">
+      <small class="text-white font-usco-default font-weight-bold text-center"
+        >© {{ anio | date : "yyyy" }} Ciberseguridad en Línea</small
+      >
+    </div>
   </mat-sidenav>
   <mat-sidenav-content (validarToken)="receiveMessage($event)">
     <mat-toolbar class="toolbar">

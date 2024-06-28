@@ -1,0 +1,97 @@
+<app-admin-navbar>
+  <div class="container text-center">
+    <div class="card shadow-sm mt-3">
+      <div class="card-header text-center" style="background-color: #d5dbdb">
+        <h4 class="mt-2">Vista previa cuestionario</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <div class="container">
+              <fieldset class="scheduler-border shadow-sm">
+                <legend class="scheduler-border font-usco-vt">
+                  Seleccione el cuestionario
+                </legend>
+                <form [formGroup]="formulario" class="pl-4 pr-4">
+                  <div class="row pt-2">
+                    <div class="col">
+                      <mat-form-field
+                        class="example-full-width"
+                        appearance="fill"
+                      >
+                        <mat-label>Cuestionario</mat-label>
+                        <mat-select formControlName="codigo">
+                          <mat-option
+                            *ngFor="let cuestionario of listadoCuestionarios"
+                            [value]="cuestionario.codigo"
+                          >
+                            {{ cuestionario.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <button
+                        class="btn btn-success"
+                        [disabled]="!formulario.valid"
+                        (click)="visualizar()"
+                      >
+                        <i class="fa-solid fa-eye"></i> Previsualizar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5" *ngIf="!flag">
+      <div class="col">
+        <div class="row text-center precarga-img-usco">
+          <div class="col">
+            <img src="assets/images/Logo1.png" style="width: 250px" />
+          </div>
+        </div>
+        <div class="row text-center mt-3">
+          <div class="col">
+            <h5 class="font-usco-default font-usco-gr">
+              Espacio para la visualización del cuestionario
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngIf="flag">
+      <div *ngIf="flag" class="row prev-header-encuesta-usco mt-2 mb-3 shadow">
+        <div class="col">
+          <div
+            class="row border-round-usco pl-5 pr-5 pb-3 pt-4"
+            id="carnet-usco-rotulo-front"
+          >
+            <div class="col text-center font-usco-gr mt-2">
+              <img style="width: 40%" src="assets/images/encuesta.png" />
+              <hr class="dashed" />
+              <h4 class="font-usco-default text-left font-usco-gr-d6">
+                {{ cuestionario.nombre }}
+              </h4>
+              <h6 class="font-usco-default mt-3 text-left">
+                <span class="font-usco-gr-d6"
+                  ><i class="fa-solid fa-user"></i> Dirigida a: Estudiantes del
+                  curso - {{ cuestionario.cursoNombre }}
+                </span>
+              </h6>
+              <h6 class="font-usco-default mt-3 text-left font-usco-gr-d6">
+                <i class="fa-solid fa-circle-info"></i> Instrucciones.
+              </h6>
+              <p class="text-justify">{{ cuestionario.instrucciones }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-admin-navbar>

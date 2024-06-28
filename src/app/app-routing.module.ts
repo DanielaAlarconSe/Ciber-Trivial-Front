@@ -9,16 +9,22 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { CuestionarioComponent } from './components/cuestionarios/cuestionario/cuestionario.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guard/auth.guard';
+import { VistaPreviaComponent } from './components/cuestionarios/vista-previa/vista-previa.component';
+import { PreguntaComponent } from './components/cuestionarios/pregunta/pregunta.component';
+import { RespuestaComponent } from './components/cuestionarios/respuesta/respuesta.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'trivial' },
 
   //COMPONENTES DEL SISTEMA
-  { path: 'trivial', component: TrivialComponent },
+  { path: 'inicio', component: TrivialComponent },
 
   { path: 'inicio-sesion', component: LoginComponent },
 
   { path: 'cuestionario', component: CuestionarioComponent },
+  { path: 'pregunta', component: PreguntaComponent },
+  { path: 'respuesta', component: RespuestaComponent },
+  { path: 'vista-previa', component: VistaPreviaComponent },
 
   { path: 'panel', component: PanelComponent, canActivate: [AuthGuard] },
 

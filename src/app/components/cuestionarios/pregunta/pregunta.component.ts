@@ -1,4 +1,3 @@
-import { CursoService } from './../../../services/curso.service';
 import { Component, Inject, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -16,15 +15,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import Swal from 'sweetalert2';
 import { Cuestionario } from 'src/app/models/cuestionario';
 import { CuestionarioService } from 'src/app/services/cuestionario.service';
-import { Curso } from 'src/app/models/curso';
+import { PreguntaService } from 'src/app/services/pregunta.service';
+import { Pregunta } from 'src/app/models/pregunta';
+import { RespuestaTipo } from 'src/app/models/respuesta-tipo';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-cuestionario',
-  templateUrl: './cuestionario.component.html',
-  styleUrls: ['./cuestionario.component.css'],
+  selector: 'app-pregunta',
+  templateUrl: './pregunta.component.html',
+  styleUrls: ['./pregunta.component.css'],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -32,18 +33,20 @@ import { Curso } from 'src/app/models/curso';
     },
   ],
 })
-export class CuestionarioComponent {
-  listadoCuestionario: Cuestionario[] = [];
+export class PreguntaComponent {
+  listadoCuestionarios: Cuestionario[] = [];
+  listadoPreguntasCuestionario: Pregunta[] = [];
+  codigoCuestionario!: number;
+  pregunta!: Pregunta;
 
-  dataSource = new MatTableDataSource<Cuestionario>([]);
+  dataSource = new MatTableDataSource<Pregunta>([]);
   displayedColumns: string[] = [
     'index',
     'codigo',
     'nombre',
-    'instrucciones',
-    'curso',
-    'fechaInicio',
-    'fechaFin',
+    'cuestionario',
+    'tipo',
+    'texto',
     'estado',
     'opciones',
   ];
@@ -54,6 +57,7 @@ export class CuestionarioComponent {
 
   constructor(
     public cuestionarioService: CuestionarioService,
+    public preguntaService: PreguntaService,
     public dialog: MatDialog,
     private authService: AuthService,
     private router: Router
@@ -63,25 +67,44 @@ export class CuestionarioComponent {
     }
   }
 
-  botonActivo(element: Cuestionario): boolean {
-    const fechaJson = new Date(element.fechaFin);
-    return fechaJson <= new Date();
+  obtenerPreguntas(event: any) {
+    let pregunta: Pregunta = new Pregunta();
+    this.codigoCuestionario = event.value.codigo;
+    pregunta.cuestionarioCodigo = event.value.codigo;
+    pregunta.cuestionarioNombre = event.value.nombre;
+    this.pregunta = pregunta;
+    this.preguntaService
+      .obtenerPreguntasCuestionario(event.value.codigo)
+      .subscribe((data) => {
+        this.listadoPreguntasCuestionario = data;
+        this.dataSource = new MatTableDataSource<Pregunta>(data);
+        this.paginator.firstPage();
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  actualizarPreguntas(element: Pregunta) {
+    this.preguntaService
+      .obtenerPreguntasCuestionario(element.cuestionarioCodigo)
+      .subscribe((data) => {
+        this.listadoPreguntasCuestionario = data;
+        this.dataSource = new MatTableDataSource<Pregunta>(data);
+        this.paginator.firstPage();
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   obtenerCuestionarios() {
     this.cuestionarioService.obtenerCuestionarios().subscribe((data: any) => {
-      console.log(data);
-      this.listadoCuestionario = data;
-      this.dataSource = new MatTableDataSource<Cuestionario>(data);
-      this.paginator.firstPage();
-      this.dataSource.paginator = this.paginator;
+      this.listadoCuestionarios = data;
     });
   }
 
   registrarFormulario(): void {
-    this.dialogRef = this.dialog.open(ModalFormularioCuestionario, {
+    this.dialogRef = this.dialog.open(ModalFormularioPregunta, {
       width: '50%',
       disableClose: true,
+      data: { pregunta: this.pregunta },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -102,11 +125,11 @@ export class CuestionarioComponent {
     this.palabrasClaves = '';
   }
 
-  editarFormulario(element: any): void {
-    this.dialogRef = this.dialog.open(ModalFormularioCuestionario, {
+  editarFormulario(element: Pregunta): void {
+    this.dialogRef = this.dialog.open(ModalFormularioPregunta, {
       width: '50%',
       disableClose: true,
-      data: { cuestionario: element },
+      data: { pregunta: element },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -114,14 +137,14 @@ export class CuestionarioComponent {
   }
 
   onModalClosed() {
-    this.obtenerCuestionarios();
+    this.actualizarPreguntas(this.pregunta);
   }
 
-  eliminar(cuestionario: Cuestionario) {
-    this.cuestionarioService.actualizarCuestionario(cuestionario).subscribe(
+  eliminar(pregunta: Pregunta) {
+    this.preguntaService.actualizarPregunta(pregunta).subscribe(
       (data: any) => {
         if (data > 0) {
-          this.obtenerCuestionarios();
+          this.actualizarPreguntas(pregunta);
         } else {
           this.mensajeError();
         }
@@ -130,13 +153,9 @@ export class CuestionarioComponent {
     );
   }
 
-  editarCuestionario(element: Cuestionario) {
-    this.editarFormulario(element);
-  }
-
-  eliminarCuestionario(element: Cuestionario) {
+  eliminarCuestionario(element: Pregunta) {
     Swal.fire({
-      title: 'Está a punto de eliminar el cuestionario',
+      title: 'Está a punto de eliminar la pregunta',
       text: 'La siguiente acción no podrá deshacerse.',
       icon: 'warning',
       showCancelButton: true,
@@ -195,8 +214,8 @@ export class CuestionarioComponent {
 
 @Component({
   selector: 'modal-formulario-cuestionario',
-  templateUrl: './modal-formulario-cuestionario.html',
-  styleUrls: ['./cuestionario.component.css'],
+  templateUrl: './modal-formulario-pregunta.html',
+  styleUrls: ['./pregunta.component.css'],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -204,81 +223,71 @@ export class CuestionarioComponent {
     },
   ],
 })
-export class ModalFormularioCuestionario {
+export class ModalFormularioPregunta {
   editar: boolean = false;
   formulario!: FormGroup;
-  cursos: Curso[] = [];
-  fechaLimiteMinima!: any;
-  fechaLimiteMinimaVigencia!: any;
+  pregunta: Pregunta[] = [];
+  listadoRespuestaTipo: RespuestaTipo[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<ModalFormularioCuestionario>,
+    public dialogRef: MatDialogRef<ModalFormularioPregunta>,
     private formBuilder: FormBuilder,
-    private cursoService: CursoService,
     public dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
-    private cuestionarioService: CuestionarioService,
+    public preguntaService: PreguntaService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.fechaLimiteMinima = new Date();
     if (this.authService.validacionToken()) {
       this.crearFormulario();
-      this.obtenerCursos();
-      if (JSON.stringify(data) !== 'null') {
-        this.editarCuestionario(data.cuestionario);
-        console.log('Entra');
-      } else {
-        console.log('No entra');
+
+      if (data.pregunta.codigo !== undefined) {
+        this.editarPregunta(data.pregunta);
       }
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.obtenerRespuestaTipo();
+  }
 
-  limiteVigencia() {
-    this.fechaLimiteMinimaVigencia = new Date(
-      this.formulario.get('fechaInicio')!.value
-    );
+  obtenerRespuestaTipo() {
+    this.preguntaService.obtenerRespuestaTipo().subscribe((data) => {
+      this.listadoRespuestaTipo = data;
+    });
   }
 
   private crearFormulario(): void {
     this.formulario = this.formBuilder.group({
       codigo: new FormControl(''),
       nombre: new FormControl('', Validators.required),
-      instrucciones: new FormControl('', Validators.required),
-      curso: new FormControl('', Validators.required),
-      fechaInicio: new FormControl('', Validators.required),
-      fechaFin: new FormControl('', Validators.required),
+      cuestionarioCodigo: new FormControl(''),
+      tipoRespuestaCodigo: new FormControl('', Validators.required),
+      textoAdicional: new FormControl(''),
       estado: new FormControl(''),
     });
   }
 
-  obtenerCursos(): void {
-    this.cursoService.obtenerCursos().subscribe((data) => {
-      this.cursos = data;
-    });
-  }
-
   generarCuestionario(): void {
-    let cuestionario: Cuestionario = new Cuestionario();
-    cuestionario.codigo = this.formulario.get('codigo')!.value;
-    cuestionario.nombre = this.formulario.get('nombre')!.value;
-    cuestionario.instrucciones = this.formulario.get('instrucciones')!.value;
-    cuestionario.cursoCodigo = this.formulario.get('curso')!.value;
-    cuestionario.fechaInicio = this.formulario.get('fechaInicio')!.value;
-    cuestionario.fechaFin = this.formulario.get('fechaFin')!.value;
-    cuestionario.estado = this.formulario.get('estado')!.value;
+    let pregunta: Pregunta = new Pregunta();
+    pregunta.codigo = this.formulario.get('codigo')!.value;
+    pregunta.nombre = this.formulario.get('nombre')!.value;
+    pregunta.cuestionarioCodigo = this.data.pregunta.cuestionarioCodigo;
+    pregunta.tipoRespuestaCodigo = this.formulario.get(
+      'tipoRespuestaCodigo'
+    )!.value;
+    pregunta.textoAdicional = this.formulario.get('textoAdicional')!.value;
+    pregunta.estado = this.formulario.get('estado')!.value;
 
     if (this.editar) {
-      this.actualizarCuestionario(cuestionario);
+      this.actualizarPregunta(pregunta);
     } else {
-      this.registrarCuestionario(cuestionario);
+      this.registrarPregunta(pregunta);
     }
   }
 
-  registrarCuestionario(cuestionario: Cuestionario) {
-    this.cuestionarioService.registrarCuestionario(cuestionario).subscribe(
+  registrarPregunta(pregunta: Pregunta) {
+    this.preguntaService.registrarPregunta(pregunta).subscribe(
       (data) => {
         if (data > 0) {
           Swal.fire({
@@ -299,8 +308,8 @@ export class ModalFormularioCuestionario {
     );
   }
 
-  actualizarCuestionario(cuestionario: Cuestionario) {
-    this.cuestionarioService.actualizarCuestionario(cuestionario).subscribe(
+  actualizarPregunta(pregunta: Pregunta) {
+    this.preguntaService.actualizarPregunta(pregunta).subscribe(
       (data) => {
         if (data > 0) {
           Swal.fire({
@@ -319,42 +328,18 @@ export class ModalFormularioCuestionario {
     );
   }
 
-  editarCuestionario(element: Cuestionario) {
+  editarPregunta(element: Pregunta) {
     this.editar = true;
     this.formulario.get('codigo')!.setValue(element.codigo);
     this.formulario.get('nombre')!.setValue(element.nombre);
-    this.formulario.get('instrucciones')!.setValue(element.instrucciones);
-    this.formulario.get('curso')!.setValue(element.cursoCodigo);
-    console.log('EDITAR: ', element.fechaInicio);
-    // Formatear las fechas para que sean compatibles con el input datetime-local
-    const formatDate = (date: Date) => {
-      const pad = (num: number) => (num < 10 ? '0' : '') + num;
-      const year = date.getFullYear();
-      const month = pad(date.getMonth() + 1); // Meses van de 0 a 11
-      const day = pad(date.getDate());
-      const hours = pad(date.getHours());
-      const minutes = pad(date.getMinutes());
-      return `${year}-${month}-${day}T${hours}:${minutes}`;
-    };
-
-    const fechaInicioFormatted = formatDate(new Date(element.fechaInicio));
-    const fechaFinFormatted = formatDate(new Date(element.fechaFin));
-
-    this.formulario.get('fechaInicio')!.setValue(fechaInicioFormatted);
-    this.formulario.get('fechaFin')!.setValue(fechaFinFormatted);
+    this.formulario
+      .get('cuestionarioCodigo')!
+      .setValue(element.cuestionarioCodigo);
+    this.formulario
+      .get('tipoRespuestaCodigo')!
+      .setValue(element.tipoRespuestaCodigo);
+    this.formulario.get('textoAdicional')!.setValue(element.textoAdicional);
     this.formulario.get('estado')!.setValue(element.estado);
-  }
-
-  eliminarCuestionario() {
-    let cuestionario: Cuestionario = new Cuestionario();
-    cuestionario.codigo = this.formulario.get('codigo')!.value;
-    cuestionario.nombre = this.formulario.get('nombre')!.value;
-    cuestionario.instrucciones = this.formulario.get('instrucciones')!.value;
-    cuestionario.cursoCodigo = this.formulario.get('curso')!.value;
-    cuestionario.fechaInicio = this.formulario.get('fechaInicio')!.value;
-    cuestionario.fechaFin = this.formulario.get('fechaFin')!.value;
-    cuestionario.estado = this.formulario.get('estado')!.value;
-    this.actualizarCuestionario(cuestionario);
   }
 
   cancelar() {
@@ -394,12 +379,5 @@ export class ModalFormularioCuestionario {
     } else {
       this.mensajeError();
     }
-  }
-
-  transformToUppercase(event: Event, controlName: string): void {
-    const inputElement = event.target as HTMLInputElement;
-    const uppercaseValue = inputElement.value.toUpperCase();
-    inputElement.value = uppercaseValue;
-    this.formulario.get(controlName)?.setValue(uppercaseValue);
   }
 }
