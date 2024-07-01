@@ -38,7 +38,14 @@ import {
   PreguntaComponent,
   ModalFormularioPregunta,
 } from './components/cuestionarios/pregunta/pregunta.component';
-import { RespuestaComponent, ModalFormularioRespuesta } from './components/cuestionarios/respuesta/respuesta.component';
+import {
+  RespuestaComponent,
+  ModalFormularioRespuesta,
+} from './components/cuestionarios/respuesta/respuesta.component';
+import {
+  PreguntaRespuestaComponent,
+  ModalFormularioPreguntaRespuesta,
+} from './components/cuestionarios/pregunta-respuesta/pregunta-respuesta.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +63,7 @@ import { RespuestaComponent, ModalFormularioRespuesta } from './components/cuest
     ModalFormularioCuestionario,
     ModalFormularioPregunta,
     ModalFormularioRespuesta,
+    ModalFormularioPreguntaRespuesta,
     CursoComponent,
     UsuarioComponent,
     CuestionarioComponent,
@@ -63,6 +71,7 @@ import { RespuestaComponent, ModalFormularioRespuesta } from './components/cuest
     VistaPreviaComponent,
     PreguntaComponent,
     RespuestaComponent,
+    PreguntaRespuestaComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +91,7 @@ import { RespuestaComponent, ModalFormularioRespuesta } from './components/cuest
     ModalFormularioCuestionario,
     ModalFormularioPregunta,
     ModalFormularioRespuesta,
+    ModalFormularioPreguntaRespuesta,
   ],
   providers: [DatePipe, { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }],
   bootstrap: [AppComponent],

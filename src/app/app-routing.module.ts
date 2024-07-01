@@ -12,6 +12,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { VistaPreviaComponent } from './components/cuestionarios/vista-previa/vista-previa.component';
 import { PreguntaComponent } from './components/cuestionarios/pregunta/pregunta.component';
 import { RespuestaComponent } from './components/cuestionarios/respuesta/respuesta.component';
+import { PreguntaRespuestaComponent } from './components/cuestionarios/pregunta-respuesta/pregunta-respuesta.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'trivial' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'cuestionario', component: CuestionarioComponent },
   { path: 'pregunta', component: PreguntaComponent },
   { path: 'respuesta', component: RespuestaComponent },
+  { path: 'pregunta-respuesta', component: PreguntaRespuestaComponent },
   { path: 'vista-previa', component: VistaPreviaComponent },
 
   { path: 'panel', component: PanelComponent, canActivate: [AuthGuard] },
