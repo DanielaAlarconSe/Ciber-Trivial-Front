@@ -7,6 +7,12 @@ import {
 } from '@angular/forms';
 import { CuestionarioService } from '../../../services/cuestionario.service';
 import { Cuestionario } from 'src/app/models/cuestionario';
+import { PreguntaService } from '../../../services/pregunta.service';
+import { RespuestaService } from '../../../services/respuesta.service';
+import { Pregunta } from 'src/app/models/pregunta';
+import { RespuestaOpcion } from 'src/app/models/respuesta-opcion';
+import { PreguntaRespuestaService } from '../../../services/pregunta-respuesta.service';
+import { PreguntaRespuesta } from 'src/app/models/pregunta-respuesta';
 
 @Component({
   selector: 'app-vista-previa',
@@ -16,12 +22,19 @@ import { Cuestionario } from 'src/app/models/cuestionario';
 export class VistaPreviaComponent implements OnInit {
   formulario!: FormGroup;
   listadoCuestionarios: Cuestionario[] = [];
+  listadoPreguntas: Pregunta[] = [];
+  listadoOpciones: RespuestaOpcion[] = [];
+  listadoPreguntaRespuestas: Array<PreguntaRespuesta[]> = new Array();
+  listadoRespuestas: Array<PreguntaRespuesta[]> = new Array();
   cuestionario!: any;
   flag: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private cuestionarioService: CuestionarioService
+    public cuestionarioService: CuestionarioService,
+    public preguntaService: PreguntaService,
+    public respuestaService: RespuestaService,
+    public preguntaRespuestaService: PreguntaRespuestaService
   ) {
     this.crearFormulario();
     this.obtenerCuestionarios();
@@ -46,5 +59,35 @@ export class VistaPreviaComponent implements OnInit {
     this.cuestionario = this.listadoCuestionarios.find(
       (objeto) => objeto.codigo === this.formulario.get('codigo')!.value
     );
+    this.listarPreguntasCuestionario();
+  }
+
+  listarPreguntasCuestionario() {
+    this.preguntaService
+      .obtenerPreguntasCuestionario(this.formulario.get('codigo')!.value)
+      .subscribe((data) => {
+        this.listadoPreguntas = data;
+        for (const pregunta of data) {
+          this.preguntaRespuestaService
+            .obtenerPreguntaRespuestas(pregunta.codigo)
+            .subscribe((data) => {
+              this.listadoPreguntaRespuestas.push(data);
+              this.listadoPreguntaRespuestas[pregunta.codigo] = data;
+            });
+        }
+        this.funcion();
+      });
+  }
+
+  funcion() {
+    for (let index = 0; index < this.listadoPreguntas.length; index++) {
+      this.preguntaRespuestaService
+        .obtenerPreguntaRespuestas(this.listadoPreguntas[index].codigo)
+        .subscribe((data) => {
+          this.listadoRespuestas.push(data);
+
+          this.listadoRespuestas[index] = data;
+        });
+    }
   }
 }

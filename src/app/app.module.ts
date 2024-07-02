@@ -46,6 +46,7 @@ import {
   PreguntaRespuestaComponent,
   ModalFormularioPreguntaRespuesta,
 } from './components/cuestionarios/pregunta-respuesta/pregunta-respuesta.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import {
     PreguntaComponent,
     RespuestaComponent,
     PreguntaRespuestaComponent,
+    InicioComponent,
   ],
   imports: [
     BrowserModule,

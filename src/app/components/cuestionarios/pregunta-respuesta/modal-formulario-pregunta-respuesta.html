@@ -14,7 +14,10 @@
               <div class="form-group">
                 <label>Respuesta: <span class="requerido"> * </span></label>
                 <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-select class="font-sm-corhuila" formControlName="respuestaCodigo">
+                  <mat-select
+                    class="font-sm-corhuila"
+                    formControlName="respuestaCodigo"
+                  >
                     <mat-option
                       *ngFor="let respuesta of listadoRespuestas"
                       [value]="respuesta.codigo"
@@ -38,7 +41,7 @@
         type="button"
         class="btn btn-success ml-2"
         [disabled]="!formulario.valid"
-        (click)="generarRespuesta()"
+        (click)="generarPreguntaRespuesta()"
       >
         <i class="far fa-save"></i> Guardar
       </button>

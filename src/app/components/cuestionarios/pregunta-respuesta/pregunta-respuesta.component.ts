@@ -46,11 +46,10 @@ export class PreguntaRespuestaComponent {
   dataSource = new MatTableDataSource<PreguntaRespuesta>([]);
   displayedColumns: string[] = [
     'index',
-    'codigo',
-    'nombre',
     'cuestionario',
+    'pregunta',
+    'respuesta',
     'puntuacion',
-    'estado',
     'opciones',
   ];
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
@@ -97,14 +96,13 @@ export class PreguntaRespuestaComponent {
       });
   }
 
-  actualizarRespuestas(element: PreguntaRespuesta) {
-    this.respuestaService
-      .obtenerRespuestasCuestionario(element.cuestionarioCodigo)
+  actualizarPreguntaRespuesta(element: PreguntaRespuesta) {
+    this.preguntaRespuestaService
+      .obtenerPreguntaRespuestas(element.preguntaCodigo)
       .subscribe((data) => {
-        this.listadoRespuestasCuestionario = data;
-        /* this.dataSource = new MatTableDataSource<PreguntaRespuesta>(data);
+        this.dataSource = new MatTableDataSource<PreguntaRespuesta>(data);
         this.paginator.firstPage();
-        this.dataSource.paginator = this.paginator; */
+        this.dataSource.paginator = this.paginator;
       });
   }
 
@@ -151,7 +149,7 @@ export class PreguntaRespuestaComponent {
   }
 
   onModalClosed() {
-    this.actualizarRespuestas(this.preguntaRespuesta);
+    this.actualizarPreguntaRespuesta(this.preguntaRespuesta);
   }
 
   eliminar(preguntaRespuesta: PreguntaRespuesta) {
@@ -160,7 +158,7 @@ export class PreguntaRespuestaComponent {
       .subscribe(
         (data: any) => {
           if (data > 0) {
-            this.actualizarRespuestas(preguntaRespuesta);
+            this.actualizarPreguntaRespuesta(preguntaRespuesta);
           } else {
             this.mensajeError();
           }
@@ -251,14 +249,15 @@ export class ModalFormularioPreguntaRespuesta {
     private authService: AuthService,
     private router: Router,
     public respuestaService: RespuestaService,
+    public preguntaRespuestaService: PreguntaRespuestaService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (this.authService.validacionToken()) {
       this.crearFormulario();
-      console.log('data:::: ',data.preguntaRespuesta);
+      console.log('data:::: ', data.preguntaRespuesta);
 
       if (data.preguntaRespuesta.codigo !== undefined) {
-        this.editarRespuesta(data.preguntaRespuesta);
+        this.editarPreguntaRespuesta(data.preguntaRespuesta);
       }
     }
   }
@@ -269,7 +268,9 @@ export class ModalFormularioPreguntaRespuesta {
 
   obtenerRespuestas() {
     this.respuestaService
-      .obtenerRespuestasCuestionario(this.data.preguntaRespuesta.cuestionarioCodigo)
+      .obtenerRespuestasCuestionario(
+        this.data.preguntaRespuesta.cuestionarioCodigo
+      )
       .subscribe((data) => {
         this.listadoRespuestas = data;
       });
@@ -284,71 +285,75 @@ export class ModalFormularioPreguntaRespuesta {
     });
   }
 
-  generarRespuesta(): void {
-    let respuesta: RespuestaOpcion = new RespuestaOpcion();
-    respuesta.codigo = this.formulario.get('codigo')!.value;
-    respuesta.nombre = this.formulario.get('nombre')!.value;
-    respuesta.cuestionarioCodigo = this.data.respuesta.cuestionarioCodigo;
-    respuesta.puntuacion = this.formulario.get('puntuacion')!.value;
-    respuesta.estado = this.formulario.get('estado')!.value;
+  generarPreguntaRespuesta(): void {
+    let preguntaRespuesta: PreguntaRespuesta = new PreguntaRespuesta();
+    preguntaRespuesta.codigo = this.formulario.get('codigo')!.value;
+    preguntaRespuesta.preguntaCodigo =
+      this.data.preguntaRespuesta.preguntaCodigo;
+    preguntaRespuesta.respuestaOpcionCodigo =
+      this.formulario.get('respuestaCodigo')!.value;
+    preguntaRespuesta.estado = this.formulario.get('estado')!.value;
 
     if (this.editar) {
-      this.actualizarRespuesta(respuesta);
+      this.actualizarPreguntaRespuesta(preguntaRespuesta);
     } else {
-      this.registrarRespuesta(respuesta);
+      this.registrarPreguntaRespuesta(preguntaRespuesta);
     }
   }
 
-  registrarRespuesta(respuesta: RespuestaOpcion) {
-    this.respuestaService.registrarRespuesta(respuesta).subscribe(
-      (data) => {
-        if (data > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Registrado',
-            text: '¡Operación exitosa!',
-            showConfirmButton: false,
-            timer: 2500,
-          });
-          this.dialogRef.close();
-          this.cancelar();
-          this.crearFormulario();
-        } else {
-          this.mensajeError();
-        }
-      },
-      (err) => this.fError(err)
-    );
+  registrarPreguntaRespuesta(preguntaRespuesta: PreguntaRespuesta) {
+    this.preguntaRespuestaService
+      .registrarPreguntaRespuesta(preguntaRespuesta)
+      .subscribe(
+        (data) => {
+          if (data > 0) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Registrado',
+              text: '¡Operación exitosa!',
+              showConfirmButton: false,
+              timer: 2500,
+            });
+            this.dialogRef.close();
+            this.cancelar();
+            this.crearFormulario();
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err) => this.fError(err)
+      );
   }
 
-  actualizarRespuesta(respuesta: RespuestaOpcion) {
-    this.respuestaService.actualizarRespuesta(respuesta).subscribe(
-      (data) => {
-        if (data > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Actualizado',
-            text: '¡Operación exitosa!',
-            showConfirmButton: false,
-          });
-          this.cancelar();
-          this.dialogRef.close();
-        } else {
-          this.mensajeError();
-        }
-      },
-      (err) => this.fError(err)
-    );
+  actualizarPreguntaRespuesta(preguntaRespuesta: PreguntaRespuesta) {
+    this.preguntaRespuestaService
+      .actualizarPreguntaRespuesta(preguntaRespuesta)
+      .subscribe(
+        (data) => {
+          if (data > 0) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Actualizado',
+              text: '¡Operación exitosa!',
+              showConfirmButton: false,
+            });
+            this.cancelar();
+            this.dialogRef.close();
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err) => this.fError(err)
+      );
   }
 
-  editarRespuesta(element: RespuestaOpcion) {
+  editarPreguntaRespuesta(element: PreguntaRespuesta) {
     this.editar = true;
     this.formulario.get('codigo')!.setValue(element.codigo);
-    this.formulario.get('nombre')!.setValue(element.nombre);
+    this.formulario.get('preguntaCodigo')!.setValue(element.preguntaCodigo);
     this.formulario
-      .get('cuestionarioCodigo')!
-      .setValue(element.cuestionarioCodigo);
-    this.formulario.get('puntuacion')!.setValue(element.puntuacion);
+      .get('respuestaCodigo')!
+      .setValue(element.respuestaOpcionCodigo);
     this.formulario.get('estado')!.setValue(element.estado);
   }
 

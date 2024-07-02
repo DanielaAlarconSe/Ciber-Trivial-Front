@@ -50,7 +50,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-sm-2 text-center mt-2" *ngIf="codigoPregunta">
+          <div class="col-sm-4 text-center mt-2" *ngIf="codigoPregunta">
             <button class="btn btn-ciber-v" (click)="registrarFormulario()">
               <i class="fa-solid fa-plus"></i> Relacionar Respuesta
             </button>
@@ -73,26 +73,26 @@
                   {{ dataSource.filteredData.indexOf(element) + 1 }}
                 </td>
               </ng-container>
-              <ng-container matColumnDef="codigo">
-                <th mat-header-cell *matHeaderCellDef>Codigo</th>
-                <td mat-cell *matCellDef="let element" class="font-sm-usco">
-                  {{ element.codigo }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="nombre">
-                <th mat-header-cell *matHeaderCellDef>Nombre</th>
-                <td mat-cell *matCellDef="let element" class="font-sm-usco">
-                  {{ element.nombre }}
-                </td>
-              </ng-container>
               <ng-container matColumnDef="cuestionario">
-                <th mat-header-cell *matHeaderCellDef>Instrucciones</th>
+                <th mat-header-cell *matHeaderCellDef>Cuestionario</th>
+                <td mat-cell *matCellDef="let element" class="font-sm-usco">
+                  {{ element.cuestionarioNombre }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="pregunta">
+                <th mat-header-cell *matHeaderCellDef>Pregunta</th>
+                <td mat-cell *matCellDef="let element" class="font-sm-usco">
+                  {{ element.preguntaNombre }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="respuesta">
+                <th mat-header-cell *matHeaderCellDef>Respuesta</th>
                 <td
                   mat-cell
                   *matCellDef="let element"
                   class="font-sm-usco instrucciones-column"
                 >
-                  {{ element.cuestionarioNombre }}
+                  {{ element.respuestaOpcionNombre }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="puntuacion">

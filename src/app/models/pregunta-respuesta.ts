@@ -5,6 +5,7 @@ export class PreguntaRespuesta {
   preguntaCodigo!: number;
   preguntaNombre!: string;
   respuestaOpcionCodigo!: number;
-  respuestaOpcionNombrer!: string;
+  respuestaOpcionNombre!: string;
+  puntuacion!: number;
   estado!: number;
 }

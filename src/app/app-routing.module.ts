@@ -13,12 +13,14 @@ import { VistaPreviaComponent } from './components/cuestionarios/vista-previa/vi
 import { PreguntaComponent } from './components/cuestionarios/pregunta/pregunta.component';
 import { RespuestaComponent } from './components/cuestionarios/respuesta/respuesta.component';
 import { PreguntaRespuestaComponent } from './components/cuestionarios/pregunta-respuesta/pregunta-respuesta.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'trivial' },
 
   //COMPONENTES DEL SISTEMA
-  { path: 'inicio', component: TrivialComponent },
+  { path: 'inicio', component: InicioComponent },
+  { path: 'trivial', component: TrivialComponent },
 
   { path: 'inicio-sesion', component: LoginComponent },
 

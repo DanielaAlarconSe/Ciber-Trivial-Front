@@ -1,31 +1,39 @@
-import { Curso } from 'src/app/models/curso';
-import { CursoService } from './../../services/curso.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Cuestionario } from 'src/app/models/cuestionario';
+import { AuthService } from 'src/app/services/auth.service';
+import { CuestionarioService } from 'src/app/services/cuestionario.service';
 
 @Component({
   selector: 'app-trivial',
   templateUrl: './trivial.component.html',
   styleUrls: ['./trivial.component.css'],
 })
-export class TrivialComponent {
-  listadoCursos: Curso[] = [];
-  constructor(private cursoService: CursoService) {
-    this.obtenerCursos();
+export class TrivialComponent implements OnInit {
+  cuestionarios!: Cuestionario[];
+  precarga: boolean = false;
+  encuesta: number = 0;
+
+  constructor(
+    private authService: AuthService,
+    public cuestionarioService: CuestionarioService
+  ) {
+    if (this.authService.validacionToken()) {
+    }
   }
 
-  card: string[] = [
-    'curso',
-    'descripcion',
-    'ejemplo',
-    'curso',
-    'descripcion',
-    'ejemplo',
-  ];
+  ngOnInit() {
+    this.listarCuestionario();
+  }
 
-  obtenerCursos() {
-    this.cursoService.obtenerCursos().subscribe((data) => {
+  realizarEncuesta(codigo: number) {
+    //this.cuestionarioService.obtenerEncuesta(codigo);
+  }
+
+  listarCuestionario() {
+    this.cuestionarioService.obtenerCuestionarios().subscribe((data) => {
+      this.precarga = true;
+      this.cuestionarios = data;
       console.log(data);
-      this.listadoCursos = data;
     });
   }
 }
