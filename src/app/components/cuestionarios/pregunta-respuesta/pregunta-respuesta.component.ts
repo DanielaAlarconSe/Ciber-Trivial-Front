@@ -41,7 +41,7 @@ export class PreguntaRespuestaComponent {
   listadoPreguntas: Pregunta[] = [];
   listadoRespuestasCuestionario: RespuestaOpcion[] = [];
   codigoPregunta!: number;
-  respuesta!: RespuestaOpcion;
+  preguntaRespuesta!: PreguntaRespuesta;
 
   dataSource = new MatTableDataSource<PreguntaRespuesta>([]);
   displayedColumns: string[] = [
@@ -83,9 +83,11 @@ export class PreguntaRespuestaComponent {
   obtenerRespuestas(event: any) {
     let preguntaRespuesta: PreguntaRespuesta = new PreguntaRespuesta();
     this.codigoPregunta = event.value.codigo;
-    /*respuesta.cuestionarioCodigo = event.value.codigo;
-    respuesta.cuestionarioNombre = event.value.nombre;
-    this.respuesta = respuesta; */
+    preguntaRespuesta.cuestionarioCodigo = event.value.cuestionarioCodigo;
+    preguntaRespuesta.cuestionarioNombre = event.value.cuestionarioNombre;
+    preguntaRespuesta.preguntaCodigo = event.value.codigo;
+    preguntaRespuesta.preguntaNombre = event.value.nombre;
+    this.preguntaRespuesta = preguntaRespuesta;
     this.preguntaRespuestaService
       .obtenerPreguntaRespuestas(event.value.codigo)
       .subscribe((data) => {
@@ -95,7 +97,7 @@ export class PreguntaRespuestaComponent {
       });
   }
 
-  actualizarRespuestas(element: RespuestaOpcion) {
+  actualizarRespuestas(element: PreguntaRespuesta) {
     this.respuestaService
       .obtenerRespuestasCuestionario(element.cuestionarioCodigo)
       .subscribe((data) => {
@@ -116,7 +118,7 @@ export class PreguntaRespuestaComponent {
     this.dialogRef = this.dialog.open(ModalFormularioPreguntaRespuesta, {
       width: '50%',
       disableClose: true,
-      data: { respuesta: this.respuesta },
+      data: { preguntaRespuesta: this.preguntaRespuesta },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -137,11 +139,11 @@ export class PreguntaRespuestaComponent {
     this.palabrasClaves = '';
   }
 
-  editarFormulario(element: RespuestaOpcion): void {
+  editarFormulario(element: PreguntaRespuesta): void {
     this.dialogRef = this.dialog.open(ModalFormularioPreguntaRespuesta, {
       width: '50%',
       disableClose: true,
-      data: { respuesta: element },
+      data: { preguntaRespuesta: element },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -149,23 +151,25 @@ export class PreguntaRespuestaComponent {
   }
 
   onModalClosed() {
-    this.actualizarRespuestas(this.respuesta);
+    this.actualizarRespuestas(this.preguntaRespuesta);
   }
 
-  eliminar(respuesta: RespuestaOpcion) {
-    this.respuestaService.actualizarRespuesta(respuesta).subscribe(
-      (data: any) => {
-        if (data > 0) {
-          this.actualizarRespuestas(respuesta);
-        } else {
-          this.mensajeError();
-        }
-      },
-      (err: any) => this.fError(err)
-    );
+  eliminar(preguntaRespuesta: PreguntaRespuesta) {
+    this.preguntaRespuestaService
+      .actualizarPreguntaRespuesta(preguntaRespuesta)
+      .subscribe(
+        (data: any) => {
+          if (data > 0) {
+            this.actualizarRespuestas(preguntaRespuesta);
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err: any) => this.fError(err)
+      );
   }
 
-  eliminarRespuesta(element: RespuestaOpcion) {
+  eliminarRespuesta(element: PreguntaRespuesta) {
     Swal.fire({
       title: 'Está a punto de eliminar la respuesta',
       text: 'La siguiente acción no podrá deshacerse.',
@@ -238,7 +242,7 @@ export class PreguntaRespuestaComponent {
 export class ModalFormularioPreguntaRespuesta {
   editar: boolean = false;
   formulario!: FormGroup;
-  respuesta: RespuestaOpcion[] = [];
+  listadoRespuestas: RespuestaOpcion[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ModalFormularioPreguntaRespuesta>,
@@ -251,21 +255,31 @@ export class ModalFormularioPreguntaRespuesta {
   ) {
     if (this.authService.validacionToken()) {
       this.crearFormulario();
+      console.log('data:::: ',data.preguntaRespuesta);
 
-      if (data.respuesta.codigo !== undefined) {
-        this.editarRespuesta(data.respuesta);
+      if (data.preguntaRespuesta.codigo !== undefined) {
+        this.editarRespuesta(data.preguntaRespuesta);
       }
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.obtenerRespuestas();
+  }
+
+  obtenerRespuestas() {
+    this.respuestaService
+      .obtenerRespuestasCuestionario(this.data.preguntaRespuesta.cuestionarioCodigo)
+      .subscribe((data) => {
+        this.listadoRespuestas = data;
+      });
+  }
 
   private crearFormulario(): void {
     this.formulario = this.formBuilder.group({
       codigo: new FormControl(''),
-      nombre: new FormControl('', Validators.required),
-      cuestionarioCodigo: new FormControl(''),
-      puntuacion: new FormControl(''),
+      preguntaCodigo: new FormControl(''),
+      respuestaCodigo: new FormControl('', Validators.required),
       estado: new FormControl(''),
     });
   }

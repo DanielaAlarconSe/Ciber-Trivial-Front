@@ -7,28 +7,20 @@
       <form [formGroup]="formulario">
         <fieldset class="scheduler-border shadow-sm">
           <legend class="scheduler-border mb-4">
-            {{ data.respuesta.cuestionarioNombre}}
+            {{data.preguntaRespuesta.preguntaNombre}}
           </legend>
           <div class="row">
             <div class="col">
               <div class="form-group">
                 <label>Respuesta: <span class="requerido"> * </span></label>
                 <mat-form-field class="example-full-width" appearance="fill">
-                  <input matInput formControlName="nombre" required />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <label>Puntuación: <span class="requerido"> * </span></label>
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <input
-                    matInput
-                    formControlName="puntuacion"
-                    type="number"
-                    min="0"
-                    required
-                  />
+                  <mat-select class="font-sm-corhuila" formControlName="respuestaCodigo">
+                    <mat-option
+                      *ngFor="let respuesta of listadoRespuestas"
+                      [value]="respuesta.codigo"
+                      >{{ respuesta.nombre }}</mat-option
+                    >
+                  </mat-select>
                 </mat-form-field>
               </div>
             </div>
