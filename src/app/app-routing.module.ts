@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TrivialComponent } from './components/trivial/trivial.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PersonaComponent } from './components/persona/persona.component';
@@ -14,13 +13,16 @@ import { PreguntaComponent } from './components/cuestionarios/pregunta/pregunta.
 import { RespuestaComponent } from './components/cuestionarios/respuesta/respuesta.component';
 import { PreguntaRespuestaComponent } from './components/cuestionarios/pregunta-respuesta/pregunta-respuesta.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { TriviasComponent } from './components/trivias/trivias.component';
+import { TriviaComponent } from './components/trivia/trivia.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'trivial' },
+  { path: '', pathMatch: 'full', redirectTo: 'inicio' },
 
   //COMPONENTES DEL SISTEMA
   { path: 'inicio', component: InicioComponent },
-  { path: 'trivial', component: TrivialComponent },
+  { path: 'trivias/:codigo', component: TriviasComponent },
+  { path: 'trivia/:codigo', component: TriviaComponent },
 
   { path: 'inicio-sesion', component: LoginComponent },
 

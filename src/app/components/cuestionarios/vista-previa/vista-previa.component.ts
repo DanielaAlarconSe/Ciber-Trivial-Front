@@ -5,14 +5,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CuestionarioService } from '../../../services/cuestionario.service';
 import { Cuestionario } from 'src/app/models/cuestionario';
-import { PreguntaService } from '../../../services/pregunta.service';
-import { RespuestaService } from '../../../services/respuesta.service';
 import { Pregunta } from 'src/app/models/pregunta';
 import { RespuestaOpcion } from 'src/app/models/respuesta-opcion';
-import { PreguntaRespuestaService } from '../../../services/pregunta-respuesta.service';
 import { PreguntaRespuesta } from 'src/app/models/pregunta-respuesta';
+import { RespuestaService } from 'src/app/services/respuesta.service';
+import { PreguntaService } from 'src/app/services/pregunta.service';
+import { CuestionarioService } from 'src/app/services/cuestionario.service';
+import { PreguntaRespuestaService } from 'src/app/services/pregunta-respuesta.service';
 
 @Component({
   selector: 'app-vista-previa',

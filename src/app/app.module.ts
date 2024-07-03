@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { TrivialComponent } from './components/trivial/trivial.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -47,11 +46,12 @@ import {
   ModalFormularioPreguntaRespuesta,
 } from './components/cuestionarios/pregunta-respuesta/pregunta-respuesta.component';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { TriviasComponent } from './components/trivias/trivias.component';
+import { TriviaComponent } from './components/trivia/trivia.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TrivialComponent,
     PanelComponent,
     PersonaComponent,
     LoginComponent,
@@ -74,6 +74,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
     RespuestaComponent,
     PreguntaRespuestaComponent,
     InicioComponent,
+    TriviasComponent,
+    TriviaComponent,
   ],
   imports: [
     BrowserModule,

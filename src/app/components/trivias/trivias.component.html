@@ -1,5 +1,8 @@
 <app-navbar> </app-navbar>
-<div class="container mb-5 text-center" #target>
+<button class="btn-flotante" [routerLink]="['/inicio']">
+  <i class="fa-solid fa-arrow-left"></i>
+</button>
+<div class="container mb-5 text-center">
   <div class="row">
     <div class="col">
       <div class="row">
@@ -95,13 +98,10 @@
             *ngIf="cuestionario.estado != 0"
             class="card mx-30 cursor-select card-usco-menu"
             (click)="realizarEncuesta(cuestionario.codigo)"
-            [routerLink]="['/encuesta']"
+            [routerLink]="['/trivia', cuestionario.codigo]"
           >
-          <!-- {{ i + 1 }} -->
-            <img
-              src="assets/images/fondo-6.jpg"
-              class="card-img-top"
-            />
+            <!-- {{ i + 1 }} -->
+            <img src="assets/images/fondo-6.jpg" class="card-img-top" />
             <div class="card-body">
               <h5>
                 {{ cuestionario.nombre }}
@@ -118,19 +118,20 @@
                 style="height: 100px"
               >
                 {{ cuestionario.instrucciones }}
-              </p><br>
+              </p>
+              <br />
               <div class="socials text-center">
                 <button
                   class="btn btn-success btn-block"
                   (click)="realizarEncuesta(cuestionario.codigo)"
-                  [routerLink]="['/encuesta']"
+                  [routerLink]="['/trivia', cuestionario.codigo]"
                 >
                   <i class="fa-solid fa-pen-to-square"></i> Realizar trivia
                 </button>
               </div>
             </div>
           </div>
-         <!--  <div *ngIf="cuestionario.estado == 0" class="card mx-30">
+          <!--  <div *ngIf="cuestionario.estado == 0" class="card mx-30">
             <img
               src="assets/images/fondo-{{ i + 1 }}.jpg"
               class="card-img-top"

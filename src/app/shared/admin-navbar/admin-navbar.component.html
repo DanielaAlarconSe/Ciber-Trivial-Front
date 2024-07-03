@@ -12,8 +12,11 @@
   >
     <mat-toolbar>
       <span class="logo-lg"
-        ><b><img class="img-fluid" src="assets/images/Logo1.png" /></b
-      ></span>
+        ><img
+          class="img-fluid"
+          src="assets/images/Logo1.png"
+          [routerLink]="['/inicio']"
+      /></span>
     </mat-toolbar>
     <mat-nav-list style="padding-bottom: 0">
       <a class="list" mat-list-item [routerLink]="['/panel']">
@@ -195,7 +198,7 @@
         <i class="fas fa-bars"></i>
       </button>
       <h6 class="font-corhuila">
-        Administrador Trivial Ciberseguridad en Línea
+        Administrador Trivia Ciberseguridad en Línea
       </h6>
       <ul class="navbar-nav ml-auto cursor-select">
         <li class="nav-item dropdown">
