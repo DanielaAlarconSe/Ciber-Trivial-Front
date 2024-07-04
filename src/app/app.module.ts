@@ -48,6 +48,7 @@ import {
 import { InicioComponent } from './components/inicio/inicio.component';
 import { TriviasComponent } from './components/trivias/trivias.component';
 import { TriviaComponent } from './components/trivia/trivia.component';
+import { CalificacionComponent } from './components/reportes/calificacion/calificacion.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { TriviaComponent } from './components/trivia/trivia.component';
     InicioComponent,
     TriviasComponent,
     TriviaComponent,
+    CalificacionComponent,
   ],
   imports: [
     BrowserModule,

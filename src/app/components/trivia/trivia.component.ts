@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -15,9 +14,10 @@ import { PreguntaService } from 'src/app/services/pregunta.service';
 import { RespuestaService } from 'src/app/services/respuesta.service';
 import { PreguntaRespuestaService } from 'src/app/services/pregunta-respuesta.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { Respuesta } from 'src/app/models/respuesta';
 import { RespuestaCuestionario } from 'src/app/models/respuesta-cuestionario';
+import { ResultadosReportesService } from 'src/app/services/resultados-reportes.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-trivia',
@@ -34,6 +34,8 @@ export class TriviaComponent implements OnInit {
   listadoRespuestas: Array<PreguntaRespuesta[]> = new Array();
   flag: boolean = false;
   cuestionarioCodigo!: number;
+  estudianteCodigo!: number;
+  calificacion!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,6 +43,7 @@ export class TriviaComponent implements OnInit {
     public preguntaService: PreguntaService,
     public respuestaService: RespuestaService,
     public preguntaRespuestaService: PreguntaRespuestaService,
+    public resultadosReportesService: ResultadosReportesService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -170,6 +173,7 @@ export class TriviaComponent implements OnInit {
 
   cargarRespuestas() {
     this.respuestaService.obtenerUltimoRegistro().subscribe((data) => {
+      this.estudianteCodigo = data;
       if (this.formulario.valid) {
         // Recoge las respuestas
         const respuestas: Respuesta[] = [];
@@ -180,7 +184,7 @@ export class TriviaComponent implements OnInit {
             `respuesta${pregunta.codigo}`
           )?.value;
           let respuestaTriva: Respuesta = new Respuesta();
-          respuestaTriva.respuestaCuestionarioCodigo = data;
+          respuestaTriva.respuestaCuestionarioCodigo = this.estudianteCodigo;
           respuestaTriva.preguntaCodigo = respuesta.preguntaCodigo;
           respuestaTriva.preguntaRespuestaCodigo =
             respuesta.preguntaRespuestaCodigo;
@@ -188,9 +192,39 @@ export class TriviaComponent implements OnInit {
         }
 
         // Aquí puedes enviar las respuestas al backend
-        console.log('Respuestas enviadas:', respuestas);
+        console.log('ESTUDIANTEE::', this.estudianteCodigo);
 
-        Swal.fire('¡Éxito!', 'Respuestas enviadas correctamente', 'success');
+        this.resultadosReportesService
+          .obtenerResultadoTrivia(this.estudianteCodigo)
+          .subscribe((data) => {
+            console.log('DATA CALIFICACION:::', data);
+
+            this.calificacion = data;
+            Swal.fire({
+              title: 'Tu calificación es de: ' + this.calificacion,
+              text: 'Serás redirigido a la sección de trivias',
+              width: 600,
+              padding: '3em',
+              color: '#ffffff', // Texto blanco
+              background: '#333333', // Fondo gris oscuro
+              html: `
+                  <img src="assets/images/login.png" alt="Google Logo" style="width: 300px; margin-bottom: 20px;" <br> <p>Serás redirigido a la sección de trivias</p>
+              `,
+              showConfirmButton: false,
+              allowOutsideClick: false, // Desactivar cierre al hacer clic fuera
+              allowEscapeKey: false, // Desactivar cierre con tecla ESC
+              allowEnterKey: false, // Desactivar cierre con tecla ENTER
+              timer: 5000, // 8 segundos
+              timerProgressBar: true, // Muestra la barra de progreso del tiempo
+              willClose: () => {
+                /* window.location.href = 'http://localhost:4200/#/trivias/'+this.cuestionario.cursoCodigo; */
+                this.router.navigate([
+                  '/trivias',
+                  this.cuestionario.cursoCodigo,
+                ]);
+              },
+            });
+          });
       } else {
         Swal.fire('Error', 'Por favor, complete todas las preguntas', 'error');
       }
