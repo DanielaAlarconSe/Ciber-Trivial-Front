@@ -55,12 +55,38 @@
   </button>
 </div>
 <div class="container mt-4">
+  <div
+    *ngIf="(listadoCursos | json) == '[]'"
+    class="row text-center"
+    style="margin-top: 5%; opacity: 0.6"
+  >
+    <div class="col">
+      <img src="assets/images/logo.png" style="width: 120px" />
+    </div>
+  </div>
+  <div *ngIf="(listadoCursos | json) == '[]'" class="row text-center">
+    <div class="col text-justify pl-5 pr-5 pb-5 pt-2">
+      <h5 class="font-usco-default font-usco-gr">Estimado estudiante,</h5>
+      <h5 class="font-usco-default font-usco-gr">
+        Esperamos que te encuentres bien. Nos ponemos en contacto contigo para
+        informarte que no hay ningún curso creado.
+      </h5>
+      <h5 class="font-usco-default font-usco-gr">
+        Si en el futuro hay algunos cursos en los que puedas participar, se
+        reflejará oportunamente para que puedas aumentar tus conocimientos.
+      </h5>
+      <h5 class="font-usco-default font-usco-gr">
+        ¡Gracias por ser parte de nuestra comunidad! Atentamente, El equipo de
+        Ciberseguridad en línea.
+      </h5>
+    </div>
+  </div>
   <div class="row row-cols-1 row-cols-md-4">
     <div class="col mb-4" *ngFor="let curso of listadoCursos">
       <div class="card cursor-select" [routerLink]="['/trivias', curso.codigo]">
         <div class="content">
           <p class="heading">{{ curso.nombre }}</p>
-          <p class="para">{{ curso.descripcion }}</p>
+          <p class="para">{{ curso.descripcion | slice: 0 : 120 }} ...</p>
         </div>
       </div>
     </div>

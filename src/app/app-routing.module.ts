@@ -15,6 +15,8 @@ import { PreguntaRespuestaComponent } from './components/cuestionarios/pregunta-
 import { InicioComponent } from './components/inicio/inicio.component';
 import { TriviasComponent } from './components/trivias/trivias.component';
 import { TriviaComponent } from './components/trivia/trivia.component';
+import { CalificacionComponent } from './components/reportes/calificacion/calificacion.component';
+import { RespuestasComponent } from './components/reportes/respuestas/respuestas.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -39,6 +41,9 @@ const routes: Routes = [
   { path: 'usuario', component: UsuarioComponent },
 
   { path: 'curso', component: CursoComponent },
+
+  { path: 'calificacion', component: CalificacionComponent },
+  { path: 'respuestas', component: RespuestasComponent },
 
   { path: 'acceso-denegado', component: PageNotFoundComponent },
 

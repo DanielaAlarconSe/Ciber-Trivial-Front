@@ -1,3 +1,4 @@
+import { PreguntaService } from './../../../services/pregunta.service';
 import { ResultadosReportesService } from 'src/app/services/resultados-reportes.service';
 import { CursoService } from './../../../services/curso.service';
 import { Component, Inject, ViewChild } from '@angular/core';
@@ -23,11 +24,13 @@ import { CuestionarioService } from 'src/app/services/cuestionario.service';
 import { Curso } from 'src/app/models/curso';
 import { RespuestaCuestionario } from 'src/app/models/respuesta-cuestionario';
 import { Calificacion } from 'src/app/models/calificacion';
+import { Pregunta } from 'src/app/models/pregunta';
+import { ReporteAgrupadoDto } from 'src/app/dto/reporte-agrupado-dto';
 
 @Component({
-  selector: 'app-calificacion',
-  templateUrl: './calificacion.component.html',
-  styleUrls: ['./calificacion.component.css'],
+  selector: 'app-respuestas',
+  templateUrl: './respuestas.component.html',
+  styleUrls: ['./respuestas.component.css'],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -35,14 +38,13 @@ import { Calificacion } from 'src/app/models/calificacion';
     },
   ],
 })
-export class CalificacionComponent {
+export class RespuestasComponent {
   listadoCalificaciones: Calificacion[] = [];
   listadoCursos: Curso[] = [];
   listadoCuestionarios: Cuestionario[] = [];
-
-  //Filtros
-  cursoNombre!: string;
-  cuestionarioNombre!: string;
+  listadoPreguntas: Pregunta[] = [];
+  listadoReporteAgrupado: ReporteAgrupadoDto[] = [];
+  codigosPreguntas: number[] = [];
 
   dataSource = new MatTableDataSource<Calificacion>([]);
   displayedColumns: string[] = [
@@ -57,19 +59,20 @@ export class CalificacionComponent {
 
   dialogRef!: MatDialogRef<any>;
   palabrasClaves!: string;
+  cursoCodigo!: number;
+  cuestionarioCodigo!: number;
 
   constructor(
     public cuestionarioService: CuestionarioService,
     public resultadosReportesService: ResultadosReportesService,
     public cursoService: CursoService,
+    public preguntaService: PreguntaService,
     public dialog: MatDialog,
     private authService: AuthService,
     private router: Router
   ) {
     if (this.authService.validacionToken()) {
-      this.obtenerCalificaciones();
       this.obtenerCursos();
-      this.obtenerCuestionarios();
     }
   }
 
@@ -77,6 +80,7 @@ export class CalificacionComponent {
     this.resultadosReportesService
       .obtenerCalificaciones()
       .subscribe((data: any) => {
+        console.log(data);
         this.listadoCalificaciones = data;
         this.dataSource = new MatTableDataSource<Calificacion>(data);
         this.paginator.firstPage();
@@ -90,10 +94,49 @@ export class CalificacionComponent {
     });
   }
 
-  obtenerCuestionarios() {
-    this.cuestionarioService.obtenerCuestionarios().subscribe((data) => {
-      this.listadoCuestionarios = data;
+  obtenerCuestionarios(codigo: number) {
+    this.cuestionarioService
+      .obtenerCuestionariosCurso(codigo)
+      .subscribe((data) => {
+        this.listadoCuestionarios = data;
+      });
+  }
+
+  obtenerPreguntas(cuestionarioCodigo: number) {
+    this.preguntaService
+      .obtenerPreguntasCuestionario(cuestionarioCodigo)
+      .subscribe((data) => {
+        this.listadoPreguntas = data;
+        this.codigosPreguntas = this.listadoPreguntas.map(
+          (pregunta) => pregunta.codigo
+        );
+        this.generarReporteAgrupadoOpciones();
+      });
+  }
+
+  generarReporteAgrupadoOpciones() {
+    this.resultadosReportesService
+      .generarDatosReporteAgrupado(
+        this.cuestionarioCodigo,
+        this.codigosPreguntas
+      )
+      .subscribe((data) => {
+        this.listadoReporteAgrupado = data;
+      });
+  }
+
+  getColumnas(): string[] {
+    const allColumns: string[] = [];
+    this.listadoReporteAgrupado.forEach((data) => {
+      const columns = Object.keys(data.columnas);
+      columns.forEach((column) => {
+        if (!allColumns.includes(column)) {
+          allColumns.push(column);
+        }
+      });
     });
+    allColumns.sort();
+    return allColumns;
   }
 
   filtrar(event: Event) {
@@ -108,8 +151,6 @@ export class CalificacionComponent {
   restaurar() {
     this.obtenerCalificaciones();
     this.palabrasClaves = '';
-    this.cursoNombre = '';
-    this.cuestionarioNombre = '';
   }
 
   mensajeSuccses() {

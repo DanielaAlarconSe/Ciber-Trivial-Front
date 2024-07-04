@@ -117,7 +117,7 @@
                 class="card-text font-usco-gr font-usco-default"
                 style="height: 100px"
               >
-                {{ cuestionario.instrucciones }}
+                {{ cuestionario.instrucciones | slice: 0:120}} ...
               </p>
               <br />
               <div class="socials text-center">

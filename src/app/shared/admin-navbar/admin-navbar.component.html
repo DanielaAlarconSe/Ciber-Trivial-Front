@@ -173,13 +173,48 @@
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-accordion>
-    <mat-nav-list style="padding-bottom: 0">
-      <a class="list" mat-list-item [routerLink]="['/panel']">
-        <small class="pl-2 item-principal text-white">
-          <i class="fa-solid fa-chart-simple"></i> Reportes
-        </small>
-      </a>
-    </mat-nav-list>
+    <mat-accordion>
+      <mat-expansion-panel
+        class="sidenav"
+        style="width: 100%"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+        (opened)="togglePanel('panel4')"
+        [expanded]="panelAbierto === 'panel4'"
+      >
+        <mat-expansion-panel-header class="disable_ripple specific-class">
+          <mat-panel-title>
+            <small class="text-white mt-2">
+              <i class="fa-solid fa-chart-simple"></i> Reportes
+            </small>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/calificacion']"
+            routerLinkActive="router-link-active"
+          >
+            <small class="text-white">
+              <i class="fa-solid fa-ranking-star"></i> Calificaciones
+            </small>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/respuestas']"
+            routerLinkActive="router-link-active"
+          >
+            <small class="text-white">
+              <i class="fa-solid fa-file-invoice"></i> Respuestas
+            </small>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
     <div class="text-center footer-tabs mb-2">
       <small class="text-white font-usco-default font-weight-bold text-center"
         >© {{ anio | date : "yyyy" }} Ciberseguridad en Línea</small

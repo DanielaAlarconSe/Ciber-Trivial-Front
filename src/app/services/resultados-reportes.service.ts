@@ -5,6 +5,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable, catchError, throwError } from 'rxjs';
+import { RespuestaCuestionario } from '../models/respuesta-cuestionario';
+import { Calificacion } from '../models/calificacion';
+import { ReporteAgrupadoDto } from '../dto/reporte-agrupado-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -47,5 +50,32 @@ export class ResultadosReportesService {
         headers: this.aggAutorizacionHeader(),
       }
     );
+  }
+
+  obtenerCalificaciones(): Observable<Calificacion[]> {
+    return this.http.get<Calificacion[]>(`${this.url}/obtener-calificaciones`, {
+      headers: this.aggAutorizacionHeader(),
+    });
+  }
+
+  generarDatosReporteAgrupado(
+    cuestionario: number,
+    preguntas: number[]
+  ): Observable<ReporteAgrupadoDto[]> {
+    return this.http
+      .get<ReporteAgrupadoDto[]>(
+        `${this.url}/generar-datos-reporte-agrupado/${cuestionario}/${preguntas}`,
+        {
+          headers: this.aggAutorizacionHeader(),
+        }
+      )
+      .pipe(
+        catchError((e) => {
+          if (this.isNoAutorizado(e)) {
+            return throwError(e);
+          }
+          return throwError(e);
+        })
+      );
   }
 }
