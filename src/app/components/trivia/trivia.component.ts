@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -15,6 +16,8 @@ import { RespuestaService } from 'src/app/services/respuesta.service';
 import { PreguntaRespuestaService } from 'src/app/services/pregunta-respuesta.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Respuesta } from 'src/app/models/respuesta';
+import { RespuestaCuestionario } from 'src/app/models/respuesta-cuestionario';
 
 @Component({
   selector: 'app-trivia',
@@ -22,6 +25,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./trivia.component.css'],
 })
 export class TriviaComponent implements OnInit {
+  formularioEstudiante!: FormGroup;
   formulario!: FormGroup;
   cuestionario!: Cuestionario;
   listadoPreguntas: Pregunta[] = [];
@@ -44,16 +48,42 @@ export class TriviaComponent implements OnInit {
       this.cuestionarioCodigo = params['codigo'];
       console.log(this.cuestionarioCodigo);
     });
-    this.crearFormulario();
+    this.crearFormularioEstudiante();
     this.obtenerCuestionario();
   }
 
   ngOnInit() {}
 
-  private crearFormulario(): void {
-    this.formulario = this.formBuilder.group({
-      codigo: new FormControl('', Validators.required),
+  private crearFormularioEstudiante(): void {
+    this.formularioEstudiante = this.formBuilder.group({
+      nombre: new FormControl('', Validators.required),
     });
+  }
+
+  generarEstudiante(): void {
+    let respuestaCuestionario: RespuestaCuestionario =
+      new RespuestaCuestionario();
+    respuestaCuestionario.estudianteNombre =
+      this.formularioEstudiante.get('nombre')!.value;
+    respuestaCuestionario.cuestionarioCodigo = this.cuestionarioCodigo;
+
+    this.registrarEstudiante(respuestaCuestionario);
+  }
+
+  registrarEstudiante(respuestaCuestionario: RespuestaCuestionario) {
+    this.respuestaService
+      .registrarRespuestaCuestionario(respuestaCuestionario)
+      .subscribe(
+        (data) => {
+          if (data > 0) {
+            console.log('Estudiante registrado!');
+            this.cargarRespuestas();
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err) => this.fError(err)
+      );
   }
 
   obtenerCuestionario(): void {
@@ -80,21 +110,20 @@ export class TriviaComponent implements OnInit {
               this.listadoPreguntaRespuestas[pregunta.codigo] = data;
             });
         }
-        this.funcion();
+        this.crearFormularioCuestionario();
       });
   }
 
-  funcion() {
-    for (let index = 0; index < this.listadoPreguntas.length; index++) {
-      this.preguntaRespuestaService
-        .obtenerPreguntaRespuestas(this.listadoPreguntas[index].codigo)
-        .subscribe((data) => {
-          this.listadoRespuestas.push(data);
-
-          this.listadoRespuestas[index] = data;
-        });
+  crearFormularioCuestionario() {
+    this.formulario = this.formBuilder.group({});
+    for (const pregunta of this.listadoPreguntas) {
+      this.formulario.addControl(
+        `respuesta${pregunta.codigo}`,
+        new FormControl('', Validators.required)
+      );
     }
   }
+
   salir() {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -127,8 +156,86 @@ export class TriviaComponent implements OnInit {
             'Los cambios no se han guardado.',
             'warning'
           );
-          this.router.navigate(['/trivias',this.cuestionario.cursoCodigo]);
+          this.router.navigate(['/trivias', this.cuestionario.cursoCodigo]);
         }
       });
+  }
+
+  transformToUppercase(event: Event, controlName: string): void {
+    const inputElement = event.target as HTMLInputElement;
+    const uppercaseValue = inputElement.value.toUpperCase();
+    inputElement.value = uppercaseValue;
+    //this.form.get(controlName)?.setValue(uppercaseValue);
+  }
+
+  cargarRespuestas() {
+    this.respuestaService.obtenerUltimoRegistro().subscribe((data) => {
+      if (this.formulario.valid) {
+        // Recoge las respuestas
+        const respuestas: Respuesta[] = [];
+        for (const pregunta of this.listadoPreguntas) {
+          const respuesta = new Respuesta();
+          respuesta.preguntaCodigo = pregunta.codigo;
+          respuesta.preguntaRespuestaCodigo = this.formulario.get(
+            `respuesta${pregunta.codigo}`
+          )?.value;
+          let respuestaTriva: Respuesta = new Respuesta();
+          respuestaTriva.respuestaCuestionarioCodigo = data;
+          respuestaTriva.preguntaCodigo = respuesta.preguntaCodigo;
+          respuestaTriva.preguntaRespuestaCodigo =
+            respuesta.preguntaRespuestaCodigo;
+          this.registrarTriva(respuestaTriva);
+        }
+
+        // Aquí puedes enviar las respuestas al backend
+        console.log('Respuestas enviadas:', respuestas);
+
+        Swal.fire('¡Éxito!', 'Respuestas enviadas correctamente', 'success');
+      } else {
+        Swal.fire('Error', 'Por favor, complete todas las preguntas', 'error');
+      }
+    });
+  }
+
+  registrarTriva(respuesta: Respuesta) {
+    this.respuestaService.registrarRespuestaTrivia(respuesta).subscribe(
+      (data) => {
+        if (data <= 0) {
+          this.mensajeError();
+        }
+      },
+      (err) => this.fError(err)
+    );
+  }
+
+  mensajeError() {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo completar el proceso.',
+      showConfirmButton: true,
+      confirmButtonText: 'Listo',
+      confirmButtonColor: '#8f141b',
+    });
+  }
+
+  mensajeSuccses() {
+    Swal.fire({
+      icon: 'success',
+      title: 'Proceso realizado',
+      text: '¡Operación exitosa!',
+      showConfirmButton: false,
+      timer: 2500,
+    });
+  }
+
+  fError(er: any): void {
+    let err = er.error.error_description;
+    let arr: string[] = err.split(':');
+    if (arr[0] == 'Access token expired') {
+      this.router.navigate(['login']);
+    } else {
+      this.mensajeError();
+    }
   }
 }

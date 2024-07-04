@@ -65,23 +65,19 @@
             >
               <ng-container matColumnDef="index">
                 <th mat-header-cell *matHeaderCellDef>N°</th>
-                <td
-                  mat-cell
-                  *matCellDef="let element; let i = index"
-                  class="font-sm-usco"
-                >
+                <td mat-cell *matCellDef="let element; let i = index">
                   {{ dataSource.filteredData.indexOf(element) + 1 }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="cuestionario">
                 <th mat-header-cell *matHeaderCellDef>Cuestionario</th>
-                <td mat-cell *matCellDef="let element" class="font-sm-usco">
+                <td mat-cell *matCellDef="let element">
                   {{ element.cuestionarioNombre }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="pregunta">
                 <th mat-header-cell *matHeaderCellDef>Pregunta</th>
-                <td mat-cell *matCellDef="let element" class="font-sm-usco">
+                <td mat-cell *matCellDef="let element">
                   {{ element.preguntaNombre }}
                 </td>
               </ng-container>
@@ -90,20 +86,20 @@
                 <td
                   mat-cell
                   *matCellDef="let element"
-                  class="font-sm-usco instrucciones-column"
+                  class="instrucciones-column"
                 >
                   {{ element.respuestaOpcionNombre }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="puntuacion">
                 <th mat-header-cell *matHeaderCellDef>Puntuación</th>
-                <td mat-cell *matCellDef="let element" class="font-sm-usco">
+                <td mat-cell *matCellDef="let element">
                   {{ element.puntuacion }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef>Estado</th>
-                <td mat-cell *matCellDef="let element" class="font-sm-usco">
+                <td mat-cell *matCellDef="let element">
                   <button
                     *ngIf="element.estado == 1"
                     class="btn btn-success btn-sm mr-2"

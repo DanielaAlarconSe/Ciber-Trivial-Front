@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { RespuestaOpcion } from '../models/respuesta-opcion';
+import { RespuestaCuestionario } from '../models/respuesta-cuestionario';
+import { Respuesta } from '../models/respuesta';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +76,12 @@ export class RespuestaService {
       );
   }
 
+  obtenerUltimoRegistro(): Observable<number> {
+    return this.http.get<number>(`${this.url}/obtener-ultimo-registro`, {
+      headers: this.aggAutorizacionHeader(),
+    });
+  }
+
   registrarRespuesta(respuesta: RespuestaOpcion): Observable<number> {
     return this.http.post<number>(
       `${this.url}/registrar-respuesta`,
@@ -87,6 +95,28 @@ export class RespuestaService {
   actualizarRespuesta(respuesta: RespuestaOpcion): Observable<number> {
     return this.http.put<number>(
       `${this.url}/actualizar-respuesta`,
+      respuesta,
+      {
+        headers: this.aggAutorizacionHeader(),
+      }
+    );
+  }
+
+  registrarRespuestaCuestionario(
+    respuestaCuestionario: RespuestaCuestionario
+  ): Observable<number> {
+    return this.http.post<number>(
+      `${this.url}/registrar-respuesta-cuestionario`,
+      respuestaCuestionario,
+      {
+        headers: this.aggAutorizacionHeader(),
+      }
+    );
+  }
+
+  registrarRespuestaTrivia(respuesta: Respuesta): Observable<number> {
+    return this.http.post<number>(
+      `${this.url}/registrar-respuesta-trivia`,
       respuesta,
       {
         headers: this.aggAutorizacionHeader(),
