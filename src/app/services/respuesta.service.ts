@@ -125,9 +125,15 @@ export class RespuestaService {
     );
   }
 
-  registrarBandera(bandera: Bandera): Observable<number> {
-    return this.http.post<number>(`${this.url}/registrar-bandera`, bandera, {
-      headers: this.aggAutorizacionHeader(),
-    });
+  actualizarCalificacion(
+    respuestaCuestionario: RespuestaCuestionario
+  ): Observable<number> {
+    return this.http.post<number>(
+      `${this.url}/actualizar-calificacion`,
+      respuestaCuestionario,
+      {
+        headers: this.aggAutorizacionHeader(),
+      }
+    );
   }
 }

@@ -28,12 +28,11 @@
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Trivias</mat-label>
                 <mat-select
-                  [(ngModel)]="cuestionarioCodigo"
-                  (selectionChange)="obtenerPreguntas(cuestionarioCodigo)"
                 >
                   <mat-option
                     *ngFor="let cuestionario of listadoCuestionarios"
                     [value]="cuestionario.codigo"
+                    (click)="obtenerPreguntas(cuestionario.codigo)"
                   >
                     {{ cuestionario.nombre }}
                   </mat-option>
@@ -44,7 +43,7 @@
         </fieldset>
         <fieldset class="scheduler-border shadow-sm">
           <legend class="scheduler-border font-usco-vt">Resultados</legend>
-          <div class="row" *ngIf="listadoReporteAgrupado.length <= 0">
+          <div class="row" *ngIf="(listadoReporteAgrupado | json) == '[]'">
             <div class="col">
               <div class="row text-center precarga-img-usco">
                 <div class="col">
@@ -60,7 +59,7 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="listadoReporteAgrupado.length > 0">
+          <div class="row" *ngIf="(listadoReporteAgrupado | json) != '[]'">
             <div class="col">
               <div class="table-responsive">
                 <table
