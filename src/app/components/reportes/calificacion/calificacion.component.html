@@ -127,7 +127,11 @@
         </fieldset>
         <div class="row text-right">
           <div class="col">
-            <button class="btn btn-success">
+            <button
+              class="btn btn-ciber-v"
+              [disabled]="(dataCalificacion | json) == '[]'"
+              (click)="datosCalificacionExcel()"
+            >
               <i class="fa-solid fa-file-csv"></i> Reporte excel
             </button>
           </div>

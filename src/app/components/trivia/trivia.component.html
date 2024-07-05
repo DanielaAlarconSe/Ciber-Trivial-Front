@@ -147,7 +147,8 @@
           <div class="row mt-4">
             <div class="col">
               <button
-                class="btn btn-success btn-lg"
+                class="btn btn-ciber-v btn-lg"
+                [disabled]="!formulario.valid"
                 (click)="generarEstudiante()"
               >
                 Enviar

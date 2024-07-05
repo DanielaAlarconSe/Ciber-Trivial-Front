@@ -40,7 +40,6 @@ export class PersonaComponent {
   dataSource = new MatTableDataSource<Persona>([]);
   displayedColumns: string[] = [
     'index',
-    'codigo',
     'nombres',
     'email',
     'pais',

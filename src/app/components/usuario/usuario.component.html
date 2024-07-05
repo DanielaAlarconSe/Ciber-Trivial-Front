@@ -12,16 +12,13 @@
                 <mat-label>Campo de búsqueda</mat-label>
                 <input
                   matInput
-                  #input
                   (keyup)="filtrar($event)"
-                  maxlength="50"
                   type="text"
                   required
                 />
                 <button matSuffix mat-icon-button>
                   <mat-icon>search</mat-icon>
                 </button>
-                <mat-hint align="end">{{ input.value.length }}/50</mat-hint>
               </mat-form-field>
             </div>
           </div>
@@ -57,7 +54,7 @@
                 <td mat-cell *matCellDef="let element">
                   <button
                     *ngIf="element.usuario > 0"
-                    class="btn btn-success btn-sm mr-2"
+                    class="btn btn-ciber-v btn-sm mr-2"
                     title="Activo"
                   >
                     <i class="fa-solid fa-check fa-xs"></i>

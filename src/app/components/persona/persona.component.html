@@ -12,20 +12,17 @@
                 <mat-label>Campo de búsqueda</mat-label>
                 <input
                   matInput
-                  #input
                   (keyup)="filtrar($event)"
-                  maxlength="50"
                   type="text"
                   required
                 />
                 <button matSuffix mat-icon-button>
                   <mat-icon>search</mat-icon>
                 </button>
-                <mat-hint align="end">{{ input.value.length }}/50</mat-hint>
               </mat-form-field>
             </div>
           </div>
-          <div class="col text-right mt-4">
+          <div class="col text-right mt-3">
             <button class="btn btn-ciber-v" (click)="registrarFormulario()">
               <i class="fa-solid fa-plus"></i> Registrar Nuevo
             </button>
@@ -42,12 +39,6 @@
                 <th mat-header-cell *matHeaderCellDef>N°</th>
                 <td mat-cell *matCellDef="let element; let i = index">
                   {{ dataSource.filteredData.indexOf(element) + 1 }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="codigo">
-                <th mat-header-cell *matHeaderCellDef>Codigo</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ element.codigo }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="nombres">
@@ -79,7 +70,7 @@
                 <td mat-cell *matCellDef="let element">
                   <button
                     *ngIf="element.estado === 1"
-                    class="btn btn-success btn-sm mr-2"
+                    class="btn btn-ciber-v btn-sm mr-2"
                     title="Activo"
                   >
                     <i class="fa-solid fa-check fa-xs"></i>

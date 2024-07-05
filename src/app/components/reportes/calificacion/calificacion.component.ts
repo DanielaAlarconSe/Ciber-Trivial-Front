@@ -1,3 +1,4 @@
+import { ReporteCalificacionesExcelService } from './../../../services/reporte-calificaciones-excel.service';
 import { ResultadosReportesService } from 'src/app/services/resultados-reportes.service';
 import { CursoService } from './../../../services/curso.service';
 import { Component, Inject, ViewChild } from '@angular/core';
@@ -40,6 +41,9 @@ export class CalificacionComponent {
   listadoCursos: Curso[] = [];
   listadoCuestionarios: Cuestionario[] = [];
 
+  dataForExcel: any[] = [];
+  dataCalificacion: any[] = [];
+
   //Filtros
   cursoNombre!: string;
   cuestionarioNombre!: string;
@@ -64,6 +68,7 @@ export class CalificacionComponent {
     public cursoService: CursoService,
     public dialog: MatDialog,
     private authService: AuthService,
+    public reporteCalificacionesExcelService: ReporteCalificacionesExcelService,
     private router: Router
   ) {
     if (this.authService.validacionToken()) {
@@ -81,7 +86,36 @@ export class CalificacionComponent {
         this.dataSource = new MatTableDataSource<Calificacion>(data);
         this.paginator.firstPage();
         this.dataSource.paginator = this.paginator;
+        this.crearDatasource();
       });
+  }
+
+  crearDatasource() {
+    for (let index = 0; index < this.listadoCalificaciones.length; index++) {
+      console.log(this.listadoCalificaciones[index].fechaRegistro);
+
+      this.dataCalificacion.push({
+        N: index + 1,
+        ESTUDIANTE: this.listadoCalificaciones[index].estudianteNombre,
+        CURSO: this.listadoCalificaciones[index].cursoNombre,
+        TRIVIA: this.listadoCalificaciones[index].cuestionarioNombre,
+        CALIFICACIÓN: this.listadoCalificaciones[index].calificacion,
+        FECHA: this.listadoCalificaciones[index].fechaRegistro,
+      });
+    }
+  }
+
+  datosCalificacionExcel() {
+    this.dataCalificacion.forEach((row: any) => {
+      this.dataForExcel.push(Object.values(row));
+    });
+    let reportData = {
+      title: 'Reporte Calificaciones ',
+      data: this.dataForExcel,
+      headers: Object.keys(this.dataCalificacion[0]),
+    };
+
+    this.reporteCalificacionesExcelService.exportExcel(reportData);
   }
 
   obtenerCursos() {

@@ -12,20 +12,17 @@
                 <mat-label>Campo de búsqueda</mat-label>
                 <input
                   matInput
-                  #input
                   (keyup)="filtrar($event)"
-                  maxlength="50"
                   type="text"
                   required
                 />
                 <button matSuffix mat-icon-button>
                   <mat-icon>search</mat-icon>
                 </button>
-                <mat-hint align="end">{{ input.value.length }}/50</mat-hint>
               </mat-form-field>
             </div>
           </div>
-          <div class="col text-right mt-4">
+          <div class="col text-right mt-3">
             <button class="btn btn-ciber-v" (click)="registrarFormulario()">
               <i class="fa-solid fa-plus"></i> Registrar Nuevo
             </button>

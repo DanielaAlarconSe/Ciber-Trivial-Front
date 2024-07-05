@@ -8,6 +8,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { RespuestaOpcion } from '../models/respuesta-opcion';
 import { RespuestaCuestionario } from '../models/respuesta-cuestionario';
 import { Respuesta } from '../models/respuesta';
+import { Bandera } from '../models/bandera';
 
 @Injectable({
   providedIn: 'root',
@@ -122,5 +123,11 @@ export class RespuestaService {
         headers: this.aggAutorizacionHeader(),
       }
     );
+  }
+
+  registrarBandera(bandera: Bandera): Observable<number> {
+    return this.http.post<number>(`${this.url}/registrar-bandera`, bandera, {
+      headers: this.aggAutorizacionHeader(),
+    });
   }
 }

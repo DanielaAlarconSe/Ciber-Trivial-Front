@@ -130,7 +130,7 @@ export class TriviaComponent implements OnInit {
   salir() {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: 'btn btn-success',
+        confirmButton: 'btn btn-ciber-v',
         cancelButton: 'btn btn-danger ml-3',
       },
       buttonsStyling: false,
@@ -192,12 +192,10 @@ export class TriviaComponent implements OnInit {
         }
 
         // Aquí puedes enviar las respuestas al backend
-        console.log('ESTUDIANTEE::', this.estudianteCodigo);
-
         this.resultadosReportesService
           .obtenerResultadoTrivia(this.estudianteCodigo)
           .subscribe((data) => {
-            console.log('DATA CALIFICACION:::', data);
+            console.log(this.estudianteCodigo, '|| DATA CALIFICACION:::', data);
 
             this.calificacion = data;
             Swal.fire({

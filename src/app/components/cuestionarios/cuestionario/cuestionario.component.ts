@@ -38,7 +38,6 @@ export class CuestionarioComponent {
   dataSource = new MatTableDataSource<Cuestionario>([]);
   displayedColumns: string[] = [
     'index',
-    'codigo',
     'nombre',
     'instrucciones',
     'curso',

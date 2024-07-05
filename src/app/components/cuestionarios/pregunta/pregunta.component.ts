@@ -42,12 +42,10 @@ export class PreguntaComponent {
   dataSource = new MatTableDataSource<Pregunta>([]);
   displayedColumns: string[] = [
     'index',
-    'codigo',
     'nombre',
     'cuestionario',
     'tipo',
     'texto',
-    'estado',
     'opciones',
   ];
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
