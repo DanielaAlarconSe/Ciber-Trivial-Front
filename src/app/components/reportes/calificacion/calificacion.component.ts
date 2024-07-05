@@ -24,6 +24,7 @@ import { CuestionarioService } from 'src/app/services/cuestionario.service';
 import { Curso } from 'src/app/models/curso';
 import { RespuestaCuestionario } from 'src/app/models/respuesta-cuestionario';
 import { Calificacion } from 'src/app/models/calificacion';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-calificacion',
@@ -67,6 +68,7 @@ export class CalificacionComponent {
     public resultadosReportesService: ResultadosReportesService,
     public cursoService: CursoService,
     public dialog: MatDialog,
+    public datePipe: DatePipe,
     private authService: AuthService,
     public reporteCalificacionesExcelService: ReporteCalificacionesExcelService,
     private router: Router
@@ -92,15 +94,17 @@ export class CalificacionComponent {
 
   crearDatasource() {
     for (let index = 0; index < this.listadoCalificaciones.length; index++) {
-      console.log(this.listadoCalificaciones[index].fechaRegistro);
-
+      let fecha = this.datePipe.transform(
+        this.listadoCalificaciones[index].fechaRegistro,
+        'dd-MM-yyyy h:mm a'
+      );
       this.dataCalificacion.push({
         N: index + 1,
         ESTUDIANTE: this.listadoCalificaciones[index].estudianteNombre,
         CURSO: this.listadoCalificaciones[index].cursoNombre,
         TRIVIA: this.listadoCalificaciones[index].cuestionarioNombre,
         CALIFICACIÓN: this.listadoCalificaciones[index].calificacion,
-        FECHA: this.listadoCalificaciones[index].fechaRegistro,
+        FECHA: fecha,
       });
     }
   }

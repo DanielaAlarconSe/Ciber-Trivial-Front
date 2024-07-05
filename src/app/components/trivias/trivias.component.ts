@@ -21,7 +21,6 @@ export class TriviasComponent {
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.cursoCodigo = params['codigo'];
-      console.log(this.cursoCodigo);
     });
   }
 

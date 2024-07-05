@@ -39,7 +39,6 @@ export class ReporteCalificacionesExcelService {
     const title = excelData.title;
     const header = excelData.headers;
     const data = excelData.data;
-    console.log('HEADER:', header);
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();

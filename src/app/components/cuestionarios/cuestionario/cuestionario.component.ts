@@ -69,7 +69,6 @@ export class CuestionarioComponent {
 
   obtenerCuestionarios() {
     this.cuestionarioService.obtenerCuestionarios().subscribe((data: any) => {
-      console.log(data);
       this.listadoCuestionario = data;
       this.dataSource = new MatTableDataSource<Cuestionario>(data);
       this.paginator.firstPage();
@@ -226,9 +225,6 @@ export class ModalFormularioCuestionario {
       this.obtenerCursos();
       if (JSON.stringify(data) !== 'null') {
         this.editarCuestionario(data.cuestionario);
-        console.log('Entra');
-      } else {
-        console.log('No entra');
       }
     }
   }
@@ -324,7 +320,6 @@ export class ModalFormularioCuestionario {
     this.formulario.get('nombre')!.setValue(element.nombre);
     this.formulario.get('instrucciones')!.setValue(element.instrucciones);
     this.formulario.get('curso')!.setValue(element.cursoCodigo);
-    console.log('EDITAR: ', element.fechaInicio);
     // Formatear las fechas para que sean compatibles con el input datetime-local
     const formatDate = (date: Date) => {
       const pad = (num: number) => (num < 10 ? '0' : '') + num;

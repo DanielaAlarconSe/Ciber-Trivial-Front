@@ -28,22 +28,46 @@ const routes: Routes = [
 
   { path: 'inicio-sesion', component: LoginComponent },
 
-  { path: 'cuestionario', component: CuestionarioComponent },
-  { path: 'pregunta', component: PreguntaComponent },
-  { path: 'respuesta', component: RespuestaComponent },
-  { path: 'pregunta-respuesta', component: PreguntaRespuestaComponent },
-  { path: 'vista-previa', component: VistaPreviaComponent },
+  {
+    path: 'cuestionario',
+    component: CuestionarioComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'pregunta', component: PreguntaComponent, canActivate: [AuthGuard] },
+  {
+    path: 'respuesta',
+    component: RespuestaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'pregunta-respuesta',
+    component: PreguntaRespuestaComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'vista-previa',
+    component: VistaPreviaComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'panel', component: PanelComponent, canActivate: [AuthGuard] },
 
-  { path: 'persona', component: PersonaComponent },
+  { path: 'persona', component: PersonaComponent, canActivate: [AuthGuard] },
 
-  { path: 'usuario', component: UsuarioComponent },
+  { path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard] },
 
-  { path: 'curso', component: CursoComponent },
+  { path: 'curso', component: CursoComponent, canActivate: [AuthGuard] },
 
-  { path: 'calificacion', component: CalificacionComponent },
-  { path: 'respuestas', component: RespuestasComponent },
+  {
+    path: 'calificacion',
+    component: CalificacionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'respuestas',
+    component: RespuestasComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'acceso-denegado', component: PageNotFoundComponent },
 

@@ -67,7 +67,6 @@ export class PersonaComponent {
 
   obtenerPersonas() {
     this.personaService.obtenerPersonas().subscribe((data: any) => {
-      console.log(data);
       this.listadoPersona = data;
       this.dataSource = new MatTableDataSource<Persona>(data);
       this.paginator.firstPage();
@@ -230,9 +229,6 @@ export class ModalFormularioPersona {
       this.obtenerPaises();
       if (JSON.stringify(data) !== 'null') {
         this.editarPersona(data.sede);
-        console.log('Entra');
-      } else {
-        console.log('No entra');
       }
     }
   }
@@ -265,7 +261,6 @@ export class ModalFormularioPersona {
 
   obtenerPaises(): void {
     this.ubicacionService.obtenerPaises().subscribe((data) => {
-      console.log(data, '-------------->>');
       this.pais = data;
     });
   }
@@ -293,7 +288,6 @@ export class ModalFormularioPersona {
 
     persona.estado = this.form.get('estado')!.value;
 
-    console.log(persona, 'lo que trae --->>>');
 
     if (this.editar) {
       this.actualizarPersona(persona);
@@ -303,7 +297,6 @@ export class ModalFormularioPersona {
   }
 
   registrarPersona(persona: Persona) {
-    console.log(persona, 'persona');
     const paisSeleccionado = this.form.get('pais')?.value;
     const codigoPais = paisSeleccionado.codigo;
 
@@ -336,7 +329,6 @@ export class ModalFormularioPersona {
   }
 
   actualizarPersona(persona: Persona) {
-    console.log(persona, 'persona editar');
 
     const paisSeleccionado = this.form.get('pais')?.value;
     const codigoPais = paisSeleccionado.codigo;
@@ -347,8 +339,6 @@ export class ModalFormularioPersona {
     d.apellido = persona.apellido;
     d.correo = persona.correo;
     d.paisResidencia = codigoPais;
-
-    console.log(d, 'editar');
 
     this.personaService.actualizarPersona(d).subscribe(
       (data) => {
@@ -370,9 +360,6 @@ export class ModalFormularioPersona {
   }
 
   editarPersona(element: Persona) {
-    console.log(this.editar, 'editar');
-    console.log(element);
-
     this.editar = true;
     this.form.get('nombre')!.setValue(element.nombre);
     this.form.get('apellido')!.setValue(element.apellido);
@@ -401,7 +388,6 @@ export class ModalFormularioPersona {
 
   obtenerPersonas() {
     this.personaService.obtenerPersonas().subscribe((data) => {
-      console.log(data);
       this.listadoPersona = data;
     });
   }

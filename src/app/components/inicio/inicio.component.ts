@@ -15,7 +15,6 @@ export class InicioComponent {
 
   obtenerCursos() {
     this.cursoService.obtenerCursos().subscribe((data) => {
-      console.log(data);
       this.listadoCursos = data;
     });
   }

@@ -254,7 +254,6 @@ export class ModalFormularioPreguntaRespuesta {
   ) {
     if (this.authService.validacionToken()) {
       this.crearFormulario();
-      console.log('data:::: ', data.preguntaRespuesta);
 
       if (data.preguntaRespuesta.codigo !== undefined) {
         this.editarPreguntaRespuesta(data.preguntaRespuesta);

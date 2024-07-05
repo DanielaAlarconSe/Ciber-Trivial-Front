@@ -174,8 +174,6 @@ export class ModalFormularioUsuario {
 
       if (JSON.stringify(data) !== 'null' && data.usuario?.usuario > 0) {
         this.editarUsuario(data.usuario);
-      } else {
-        console.log('No entra');
       }
     }
   }

@@ -170,8 +170,6 @@ export class ModalFormularioCurso {
       this.obtenerinstructores();
       if (JSON.stringify(data) !== 'null') {
         this.editarCurso(data.curso);
-      } else {
-        console.log('No entra');
       }
     }
   }

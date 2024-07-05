@@ -80,7 +80,6 @@ export class RespuestasComponent {
     this.resultadosReportesService
       .obtenerCalificaciones()
       .subscribe((data: any) => {
-        console.log(data);
         this.listadoCalificaciones = data;
         this.dataSource = new MatTableDataSource<Calificacion>(data);
         this.paginator.firstPage();

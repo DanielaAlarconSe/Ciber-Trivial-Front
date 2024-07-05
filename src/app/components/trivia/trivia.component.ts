@@ -49,7 +49,6 @@ export class TriviaComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.cuestionarioCodigo = params['codigo'];
-      console.log(this.cuestionarioCodigo);
     });
     this.crearFormularioEstudiante();
     this.obtenerCuestionario();
@@ -79,7 +78,6 @@ export class TriviaComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data > 0) {
-            console.log('Estudiante registrado!');
             this.cargarRespuestas();
           } else {
             this.mensajeError();
@@ -192,11 +190,11 @@ export class TriviaComponent implements OnInit {
         }
 
         // Aquí puedes enviar las respuestas al backend
+        console.log('ESTUDIANTE-CODIGO:::: ',this.estudianteCodigo);
+
         this.resultadosReportesService
           .obtenerResultadoTrivia(this.estudianteCodigo)
           .subscribe((data) => {
-            console.log(this.estudianteCodigo, '|| DATA CALIFICACION:::', data);
-
             this.calificacion = data;
             Swal.fire({
               title: 'Tu calificación es de: ' + this.calificacion,

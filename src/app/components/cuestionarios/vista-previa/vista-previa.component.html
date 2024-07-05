@@ -2,7 +2,7 @@
   <div class="container text-center">
     <div class="card shadow-sm mt-3">
       <div class="card-header text-center" style="background-color: #d5dbdb">
-        <h4 class="mt-2">Vista previa cuestionario</h4>
+        <h4 class="mt-2">Vista previa trivia</h4>
       </div>
       <div class="card-body">
         <div class="row">
@@ -10,7 +10,7 @@
             <div class="container">
               <fieldset class="scheduler-border shadow-sm">
                 <legend class="scheduler-border font-usco-vt">
-                  Seleccione el cuestionario
+                  Seleccione la trivia
                 </legend>
                 <form [formGroup]="formulario" class="pl-4 pr-4">
                   <div class="row pt-2">
@@ -19,7 +19,7 @@
                         class="example-full-width"
                         appearance="fill"
                       >
-                        <mat-label>Cuestionario</mat-label>
+                        <mat-label>Trivia</mat-label>
                         <mat-select formControlName="codigo">
                           <mat-option
                             *ngFor="let cuestionario of listadoCuestionarios"
