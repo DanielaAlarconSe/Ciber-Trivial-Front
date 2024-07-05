@@ -175,29 +175,41 @@ export class TriviaComponent implements OnInit {
       if (this.formulario.valid) {
         // Recoge las respuestas
         const respuestas: Respuesta[] = [];
+        let calificacionTotal = 0;
         for (const pregunta of this.listadoPreguntas) {
           const respuesta = new Respuesta();
           respuesta.preguntaCodigo = pregunta.codigo;
           respuesta.preguntaRespuestaCodigo = this.formulario.get(
             `respuesta${pregunta.codigo}`
           )?.value;
+          // Obtener la opción seleccionada para esta pregunta
+          const opcionSeleccionada = this.listadoPreguntaRespuestas[
+            pregunta.codigo
+          ].find(
+            (opcion) => opcion.codigo === respuesta.preguntaRespuestaCodigo
+          );
+
+          if (opcionSeleccionada) {
+            respuesta.puntuacion = opcionSeleccionada.puntuacion;
+            calificacionTotal += opcionSeleccionada.puntuacion;
+          }
           let respuestaTriva: Respuesta = new Respuesta();
           respuestaTriva.respuestaCuestionarioCodigo = this.estudianteCodigo;
           respuestaTriva.preguntaCodigo = respuesta.preguntaCodigo;
           respuestaTriva.preguntaRespuestaCodigo =
             respuesta.preguntaRespuestaCodigo;
-          this.registrarTriva(respuestaTriva);
+          //this.registrarTriva(respuestaTriva);
         }
 
         // Aquí puedes enviar las respuestas al backend
-        console.log('ESTUDIANTE-CODIGO:::: ',this.estudianteCodigo);
+        console.log('ESTUDIANTE-CODIGO:::: ', this.estudianteCodigo);
 
         this.resultadosReportesService
           .obtenerResultadoTrivia(this.estudianteCodigo)
           .subscribe((data) => {
             this.calificacion = data;
             Swal.fire({
-              title: 'Tu calificación es de: ' + this.calificacion,
+              title: 'Tu calificación es de: ' + calificacionTotal,
               text: 'Serás redirigido a la sección de trivias',
               width: 600,
               padding: '3em',

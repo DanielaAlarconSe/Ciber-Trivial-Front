@@ -3,5 +3,6 @@ export class Respuesta {
   respuestaCuestionarioCodigo!: number;
   preguntaRespuestaCodigo!: number;
   preguntaCodigo!: number;
+  puntuacion!: number;
   fechaRegistro!: Date;
 }
